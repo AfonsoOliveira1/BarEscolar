@@ -14,7 +14,7 @@
             <th>Stock</th>
             <th>Descrição</th>
             <th>Categoria</th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +27,11 @@
                 <td>@prod.Stock</td>
                 <td>@prod.Description</td>
                 <td>@prod.Categoryid</td>
-                <a asp-action="Details" asp-route-id="@prod.Id">Detalhes</a>
+                <td>
+                    <a asp-action="Details" asp-route-id="@prod.Id">Detalhes</a> |
+                    <a asp-action="Edit" asp-route-id="@prod.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@prod.Id">Apagar</a>
+                </td>
             </tr>
         }
     </tbody>

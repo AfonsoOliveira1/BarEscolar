@@ -1,0 +1,49 @@
+﻿@model BarEscolar.Models.Products
+
+<h2>Editar Produto</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-2">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+
+        <label asp-for="Stock"></label>
+        <input asp-for="Stock" class="form-control" />
+
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+
+        <label>Categoria</label>
+        <select asp-for="Categoryid" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+
+        <label asp-for="Kcal"></label>
+        <input asp-for="Kcal" class="form-control" />
+
+        <label asp-for="Protein"></label>
+        <input asp-for="Protein" class="form-control" />
+
+        <label asp-for="Fat"></label>
+        <input asp-for="Fat" class="form-control" />
+
+        <label asp-for="Carbs"></label>
+        <input asp-for="Carbs" class="form-control" />
+
+        <label asp-for="Salt"></label>
+        <input asp-for="Salt" class="form-control" />
+
+        <label asp-for="Allergens"></label>
+        <input asp-for="Allergens" class="form-control" />
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+</form>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</p>

@@ -20,5 +20,39 @@ namespace BarEscolar.Controllers
             }
             return View(product);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var produto = Generics.products.FirstOrDefault(p => p.Id == id);
+
+            if (produto == null)
+                return NotFound();
+
+            ViewBag.Categories = Generics.categories;
+            return View(produto);
+        }
+        [HttpPost] //guardar alterações
+        public IActionResult Edit(Products model)
+        {
+            var produto = Generics.products.FirstOrDefault(p => p.Id == model.Id);
+
+            if (produto == null)
+                return NotFound();
+
+            produto.Name = model.Name;
+            produto.Price = model.Price;
+            produto.Stock = model.Stock;
+            produto.Description = model.Description;
+            produto.Categoryid = model.Categoryid;
+            produto.Kcal = model.Kcal;
+            produto.Protein = model.Protein;
+            produto.Fat = model.Fat;
+            produto.Carbs = model.Carbs;
+            produto.Salt = model.Salt;
+            produto.Allergens = model.Allergens;
+
+            return RedirectToAction("Index");
+        }
     }
 }
