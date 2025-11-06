@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BarEscolar.Models.Products>
+@{
+    ViewData["Title"] = "Funcionario";
+}
+<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+
+<h1>Produtos</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Stock</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model)
+        {
+            <tr>
+                <td>@prod.Imagepath</td>
+                <td>@prod.Name</td>
+                <td>@prod.Price</td>
+                <td>@prod.Stock</td>
+                <td>@prod.Description</td>
+                <td>@prod.Categoryid</td>
+                <a asp-action="Details" asp-route-id="@prod.Id">Detalhes</a>
+            </tr>
+        }
+    </tbody>
+</table>
+<h1>Pedidos</h1>

@@ -1,0 +1,8 @@
+﻿@model Users
+
+<h2>Login efetuado com sucesso!</h2>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Nome completo:</strong> @Model.FullName</p>
+<p><strong>Papel:</strong> @Model.role</p>
+
+<a asp-controller="Login" asp-action="Login" class="btn btn-primary">Voltar</a>
