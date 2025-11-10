@@ -9,12 +9,12 @@ namespace BarEscolar.Data
     {
         public static void SeedAdmin(JsonUserStore userStore)
         {
-            /*List<Users> users = userStore.GetAll();
+            List<Users> users = userStore.GetAll();
             if (users.Any())
                 return;
 
             PasswordHasher<Users> passwordHasher = new PasswordHasher<Users>();
-            /*
+
             Users admin = new Users
             {
                 ID = Guid.NewGuid().ToString(),
@@ -26,7 +26,6 @@ namespace BarEscolar.Data
             admin.passwordhash = passwordHasher.HashPassword(admin, "1234");
 
             userStore.AddUser(admin);
-            */
         }
     }
 }

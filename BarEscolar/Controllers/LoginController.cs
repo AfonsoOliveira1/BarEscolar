@@ -1,10 +1,16 @@
 ﻿using BarEscolar.Models;
+using BarEscolar.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarEscolar.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly Authentication _authentication;
+        public LoginController(Authentication auth)
+        {
+            _authentication = auth;
+        }
         public IActionResult Login()
         {
             return View();
@@ -13,9 +19,10 @@ namespace BarEscolar.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            var user = Generics.users.FirstOrDefault(u => u.Email == email && u.password == password);
+           var authenticated = _authentication.Login(email, password);
+           var user = _authentication.CurrentUser;
 
-            if (user == null) return View("Email ou palavra-passe incorretos.");
+            if (authenticated == false || user == null) return View("Email ou palavra-passe incorretos.");
 
             if (user.role == UserRole.Admin)//Admin
             {
@@ -41,27 +48,18 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string email, string password, string fullname)
+        public IActionResult Register(string fullname, string email, string username, string password)
         {
-            if (Generics.users.Any(u => u.Email == email))
+            if (_authentication.FinByLogin(username) != null || _authentication.FinByLogin(email) != null)
             {
-                ViewBag.Erro = "Esse email já está registado!";
+                ModelState.AddModelError("", "Este nome de utilizador ou email já está registado.");
                 return View();
             }
 
-            var user = new Users
-            {
-                ID = Generics.users.Count + 1,
-                Email = email,
-                password = password,
-                FullName = fullname,
-                role = UserRole.Aluno
-            };
+            _authentication.CreateUser(fullname, email, username, password, UserRole.Aluno);
 
-            Generics.users.Add(user);
-
-            ViewBag.Sucesso = "Registo concluído com sucesso! Já pode iniciar sessão.";
-            return View();
+            TempData["SuccessMessage"] = "Conta criada com sucesso! Faça login.";
+            return RedirectToAction("Login");
         }
     }
 }

@@ -10,14 +10,17 @@ namespace BarEscolar.Services
         private PasswordHasher<Users> _passwordHasher;
         private Users? _currentuser;
 
-        public Authentication()
+        public Authentication(JsonUserStore userStore)
         {
-            m_userStore = new JsonUserStore();
+            m_userStore = userStore;
             _passwordHasher = new PasswordHasher<Users>();
         }
-
+        public Users? FinByLogin(string login)
+        {
+            return m_userStore.FinByLogin(login);
+        }
         public Users? CurrentUser => _currentuser;
-        /*
+
         public bool Login(string username, string password)
         {
             Users? user = m_userStore.FinByLogin(username);
@@ -36,7 +39,7 @@ namespace BarEscolar.Services
         {
             _currentuser = null;
         }
-        /*
+
         public void CreateUser(string fullName, string email, string username, string password, UserRole role)
         {
             Users user = new Users
@@ -52,6 +55,6 @@ namespace BarEscolar.Services
             m_userStore.AddUser(user);
         }
 
-        */
+
     }
 }

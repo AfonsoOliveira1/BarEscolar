@@ -4,7 +4,6 @@ namespace BarEscolar.Services
 {
     public class JsonUserStore
     {
-        /*
         private readonly string m_path = Path.Combine("Data", "users.json");
         private List<Users> m_users = new();
 
@@ -27,7 +26,9 @@ namespace BarEscolar.Services
 
         public Users? FinByLogin(string login)
         {
-            return m_users.FirstOrDefault(u => u.Email.Equals(login) || u.Email.Equals(login));
+            return m_users.FirstOrDefault(u =>
+                u.UserName.Equals(login, StringComparison.OrdinalIgnoreCase) ||
+                u.Email.Equals(login, StringComparison.OrdinalIgnoreCase));
         }
 
         public Users? FindById(string id)
@@ -63,6 +64,5 @@ namespace BarEscolar.Services
 
             File.WriteAllText(m_path, json);
         }
-        */
     }
 }

@@ -2,13 +2,6 @@
 {
     public static class Generics
     {
-        public static List<Users> users = new() 
-        {
-             new Users { ID = 1, Email = "mamadu@inete.net", FullName = "Mamadu Alves", password = "frfrfr" , role = UserRole.Aluno},
-             new Users { ID = 0, Email = "admin@inete.net", FullName = "Admin User", password = "admin123" , role = UserRole.Admin},
-             new Users { ID = 2, Email = "funcionario@inete.net", FullName = "Funcionario User", password = "func123" , role = UserRole.Funcionario}
-        };
-
         public static List<Category> categories = new()
         {
             new Category { Id = 0, Name = "Sandes" },

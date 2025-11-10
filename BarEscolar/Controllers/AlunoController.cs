@@ -1,13 +1,15 @@
 ﻿using BarEscolar.Models;
+using BarEscolar.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarEscolar.Controllers
 {
     public class AlunoController : Controller
     {
+        readonly Authentication _authentication;
         public IActionResult Index(int id)
         {
-            ViewBag.User = Generics.users.FirstOrDefault(u => u.ID == id);
+            ViewBag.User = 
             ViewBag.Order = Generics.order.FirstOrDefault(o => o.Userid == id);
             return View(Generics.menuDay.AsEnumerable());
         }
