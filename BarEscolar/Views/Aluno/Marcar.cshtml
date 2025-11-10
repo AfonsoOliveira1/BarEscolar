@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BarEscolar.Models.MenuDay>
+@{
+    ViewData["Title"] = "Menu";
+}
+<h1>Quer marcar este Menu?</h1>
+<h2>@ViewBag.Menu.Date</h2>
+<h2>@ViewBag.Menu.MainDish</h2>
+<h2>@ViewBag.Menu.Soup</h2>
+<h2>@ViewBag.Menu.Dessert</h2>
+<h2>@ViewBag.Menu.Notes</h2>
+<button type="submit">Marcar</button>

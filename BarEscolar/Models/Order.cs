@@ -2,10 +2,10 @@
 {
     public class Order
     {
-        private int _id;
-        private int _userid;
-        private double _total;
-        private DateTime _createdat;
-        private bool _state;
+        public int Id { get; set; }
+        public int Userid { get; set; }
+        public double Total { get; set; }
+        public DateTime Createdat { get; set; }
+        public bool State { get; set; }
     }
 }

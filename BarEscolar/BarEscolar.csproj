@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Aluno\" />
   </ItemGroup>
 
 </Project>

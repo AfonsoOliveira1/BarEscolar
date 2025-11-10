@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BarEscolar.Models.OrderItem>
+@{
+    ViewData["Title"] = "Aluno";
+}
+<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+<h1>Menus Marcados</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Dia</th>
+            <th>Prato Principal</th>
+            <th>Soupa</th>
+            <th>Sobremesa</th>
+            <th>Descrição</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var menuDay in Model)
+        {
+            <tr>
+                <td>@menuDay.</td>
+                <td>@menuDay.MainDish</td>
+                <td>@menuDay.Soup</td>
+                <td>@menuDay.Dessert</td>
+                <td>@menuDay.Notes</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@menuDay.Id">Detalhes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -27,7 +27,7 @@ namespace BarEscolar.Controllers
             }
             else if (user.role == UserRole.Aluno)//Aluno
             {
-                return View("LoginSucesso", new { id = user.ID });
+                return RedirectToAction("Index", "Aluno", new { id = user.ID });
             }
             else
             {

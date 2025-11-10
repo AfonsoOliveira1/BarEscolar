@@ -22,5 +22,14 @@
             new Products { Id = 2, Categoryid = 1,Name = "Sumo de Laranja", Description = "Sumo natural de laranja", Price = 1.50, Imagepath = "images/sumo_laranja.jpg", Kcal = 120, Protein = 2, Fat = 0, Carbs = 28, Salt = 0, Allergens = 0, Stock = 100, IsActive = true },
             new Products { Id = 3, Categoryid = 2,Name = "Barra de Cereal", Description = "Barra de cereal com mel e frutos secos", Price = 1.00, Imagepath = "images/barra_cereal.jpg", Kcal = 180, Protein = 4, Fat = 6, Carbs = 25, Salt = 1, Allergens = 2, Stock = 75, IsActive = true }
         };
+
+        public static List<MenuDay> menuDay = new()
+        {
+            new MenuDay{Id = 0, Date = DateTime.Now, MainDish = "Salmão com Arroz", Soup = "Canja", Dessert = "Caracois", Notes = "yumm",MaxSeats = 12}
+        };
+
+        public static List<Order> order { get; set; } = new();
+        public static List<OrderItem> orderItem { get; set; } = new();
+
     }
 }

@@ -2,11 +2,11 @@
 {
     public class OrderItem
     {
-        private int _id;
-        private int _orderid;
-        private int _productid;
-        private int _quantity;
-        private double _unitprice;
-        private double _subtotal;
+        public int Id { get; set; }
+        public int Orderid { get; set; }
+        public int Productid { get; set; }
+        public int Quantity { get; set; }
+        public double Unitprice { get; set; }
+        public double Subtotal { get; set; }
     }
 }

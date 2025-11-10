@@ -3,13 +3,13 @@
     public class MenuDay
     {
         public int Id { get; set; }
-        private int menuweekid;
-        private DateTime Date;
-        private string option;
-        private string MainDish;
-        private string Soup;
-        private string Dessert;
-        private string Notes;
-        private int MaxSeats;
+        public int menuweekid { get; set; }
+        public DateTime Date { get; set; }
+        public string option { get; set; } = string.Empty;
+        public string MainDish { get; set; } = string.Empty;
+        public string Soup { get; set; } = string.Empty;
+        public string Dessert { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
+        public int MaxSeats { get; set; }
     }
 }
