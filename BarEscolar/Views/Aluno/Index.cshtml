@@ -3,7 +3,7 @@
     ViewData["Title"] = "Aluno";
 }
 <h1>Bem-vindo, @ViewBag.User.FullName!</h1>
-<a asp-action="MenusMarcados" asp-route-id="@ViewBag.User.Id">Menus Marcados</a>
+<a asp-action="MenusMarcados" asp-route-id="@ViewBag.User.ID">Menus Marcados</a>
 
 <h1>Menu do Dia</h1>
 <table class="table table-striped">
@@ -27,36 +27,7 @@
                 <td>@menuDay.Dessert</td>
                 <td>@menuDay.Notes</td>
                 <td>
-                    <a asp-action="Marcar" asp-route-id="@menuDay.Id">Marcar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h1>Menus Marcados</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Dia</th>
-            <th>Prato Principal</th>
-            <th>Soupa</th>
-            <th>Sobremesa</th>
-            <th>Descrição</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var menuDay in ViewBag.Order)
-        {
-            <tr>
-                <td>@menuDay.Date</td>
-                <td>@menuDay.MainDish</td>
-                <td>@menuDay.Soup</td>
-                <td>@menuDay.Dessert</td>
-                <td>@menuDay.Notes</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@menuDay.Id">Detalhes</a>
+                    <a asp-action="Marcar" asp-route-id="@ViewBag.User.ID" asp-route-menuid="@menuDay.Id">Marcar</a>
                 </td>
             </tr>
         }

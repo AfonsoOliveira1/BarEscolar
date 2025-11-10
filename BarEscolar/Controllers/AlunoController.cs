@@ -18,24 +18,24 @@ namespace BarEscolar.Controllers
             var userOrders = Generics.order.Where(o => o.Userid == id).ToList();
             var orderItems = Generics.orderItem.Where(oi => userOrders.Any(o => o.Id == oi.Orderid)).ToList();
             ViewBag.OrderItems = orderItems;
-            return RedirectToAction("MenusMarcados");
+            return View(userOrders);
         }
 
-        [HttpGet]
-        public IActionResult Marcar(int id)
+        public IActionResult Marcar(int id, int menuId)
         {
-            ViewBag.Menu = Generics.menuDay.FirstOrDefault(u => u.Id == id); ;
-            return RedirectToAction("Marcar");
+            var menu = Generics.menuDay.FirstOrDefault(u => u.Id == menuId);
+            ViewBag.User = Generics.users.FirstOrDefault(u => u.ID == id);
+
+            return View(menu);
         }
 
-        [HttpPost]
         public IActionResult MarcarConfirmed(int id, int prodId)
         {
             var order = new Order { Id = Generics.order.Count + 1, Userid = id, Total = 1, Createdat = DateTime.Now};
             var orderItem = new OrderItem { Id = Generics.orderItem.Count + 1, Orderid = order.Id, Productid = prodId, Quantity = 1, Unitprice = 1 };
             Generics.order.Add(order);
             Generics.orderItem.Add(orderItem);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }
