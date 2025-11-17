@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BarEscolar.Models.MenuWeek>
+
+<h2>Semanas de Menu</h2>
+
+<a class="btn btn-success" asp-action="CreateWeek">Nova Semana</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Semana</th>
+            <th>Total de Dias</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var w in Model)
+        {
+            // Count unique days (ignore A/B)
+            var totalDias = w.menuDays
+            .Select(d => d.Date.Date)
+            .Distinct()
+            .Count();
+
+            <tr>
+                <td>@w.weekstart</td>
+                <td>@totalDias dias</td>
+                <td>
+                    <a asp-action="EditWeek" asp-route-id="@w.id" class="btn btn-warning btn-sm">Editar</a>
+                    <form asp-action="DeleteWeek" asp-route-id="@w.id" method="post" style="display:inline-block">
+                        <button class="btn btn-danger btn-sm"
+                                onclick="return confirm('Apagar esta semana?');">
+                            Apagar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">
+    Voltar ao Dashboard
+</a>

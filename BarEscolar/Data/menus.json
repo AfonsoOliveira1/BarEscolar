@@ -1,0 +1,234 @@
+[
+  {
+    "id": 1,
+    "weekstart": "2025-11-17",
+    "menuDays": [
+      {
+        "Id": 1,
+        "menuweekid": 1,
+        "Date": "2025-11-17T00:00:00",
+        "option": "A",
+        "MainDish": "Frango grelhado com arroz e salada",
+        "Soup": "Sopa de legumes",
+        "Dessert": "Ma\u00E7\u00E3 assada",
+        "Notes": "Cl\u00E1ssico saud\u00E1vel e leve.",
+        "MaxSeats": 50
+      },
+      {
+        "Id": 2,
+        "menuweekid": 1,
+        "Date": "2025-11-17T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Tofu salteado com legumes e arroz integral",
+        "Soup": "Creme de ab\u00F3bora",
+        "Dessert": "Pera",
+        "Notes": "Op\u00E7\u00E3o vegan rica em prote\u00EDna.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 3,
+        "menuweekid": 1,
+        "Date": "2025-11-18T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Bacalhau \u00E0 Br\u00E1s",
+        "Soup": "Caldo verde",
+        "Dessert": "Gelatina",
+        "Notes": "Tradicional e saboroso.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 4,
+        "menuweekid": 1,
+        "Date": "2025-11-18T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Feijoada de legumes com arroz branco",
+        "Soup": "Sopa de gr\u00E3o-de-bico",
+        "Dessert": "Banana",
+        "Notes": "Conforto vegan.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 5,
+        "menuweekid": 1,
+        "Date": "2025-11-19T00:00:00",
+        "option": "A",
+        "MainDish": "Carne de porco \u00E0 alentejana",
+        "Soup": "Sopa de cenoura",
+        "Dessert": "Laranja",
+        "Notes": "Prato t\u00EDpico portugu\u00EAs.",
+        "MaxSeats": 1
+      },
+      {
+        "Id": 6,
+        "menuweekid": 1,
+        "Date": "2025-11-19T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Caril de gr\u00E3o com leite de coco e arroz basmati",
+        "Soup": "Sopa de ab\u00F3bora",
+        "Dessert": "Ma\u00E7\u00E3",
+        "Notes": "Sabor oriental e nutritivo.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 7,
+        "menuweekid": 1,
+        "Date": "2025-11-20T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Esparguete \u00E0 bolonhesa",
+        "Soup": "Sopa de feij\u00E3o verde",
+        "Dessert": "Iogurte",
+        "Notes": "Cl\u00E1ssico preferido dos alunos.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 8,
+        "menuweekid": 1,
+        "Date": "2025-11-20T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Esparguete com bolonhesa de lentilhas",
+        "Soup": "Sopa de ervilhas",
+        "Dessert": "Mousse de fruta",
+        "Notes": "Alternativa vegan saborosa.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 9,
+        "menuweekid": 1,
+        "Date": "2025-11-21T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Filetes de peixe com arroz de tomate",
+        "Soup": "Sopa de peixe",
+        "Dessert": "Bolo de cenoura",
+        "Notes": "Para terminar bem a semana.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 10,
+        "menuweekid": 1,
+        "Date": "2025-11-21T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Hamb\u00FArguer de gr\u00E3o e batata-doce",
+        "Soup": "Sopa de lentilhas",
+        "Dessert": "Fruta da \u00E9poca",
+        "Notes": "Encerramento leve e nutritivo.",
+        "MaxSeats": 30
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "weekstart": "2025-11-24",
+    "menuDays": [
+      {
+        "Id": 11,
+        "menuweekid": 2,
+        "Date": "2025-11-24T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Frango grelhado com arroz e salada",
+        "Soup": "Sopa de legumes",
+        "Dessert": "Ma\u00E7\u00E3 assada",
+        "Notes": "Cl\u00E1ssico saud\u00E1vel e leve.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 12,
+        "menuweekid": 2,
+        "Date": "2025-11-24T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Tofu salteado com legumes e arroz integral",
+        "Soup": "Creme de ab\u00F3bora",
+        "Dessert": "Pera",
+        "Notes": "Op\u00E7\u00E3o vegan rica em prote\u00EDna.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 13,
+        "menuweekid": 2,
+        "Date": "2025-11-25T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Bacalhau \u00E0 Br\u00E1s",
+        "Soup": "Caldo verde",
+        "Dessert": "Gelatina",
+        "Notes": "Tradicional e saboroso.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 14,
+        "menuweekid": 2,
+        "Date": "2025-11-25T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Feijoada de legumes com arroz branco",
+        "Soup": "Sopa de gr\u00E3o-de-bico",
+        "Dessert": "Banana",
+        "Notes": "Conforto vegan.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 15,
+        "menuweekid": 2,
+        "Date": "2025-11-26T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Carne de porco \u00E0 alentejana",
+        "Soup": "Sopa de cenoura",
+        "Dessert": "Laranja",
+        "Notes": "Prato t\u00EDpico portugu\u00EAs.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 16,
+        "menuweekid": 2,
+        "Date": "2025-11-26T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Caril de gr\u00E3o com leite de coco e arroz basmati",
+        "Soup": "Sopa de ab\u00F3bora",
+        "Dessert": "Ma\u00E7\u00E3",
+        "Notes": "Sabor oriental e nutritivo.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 17,
+        "menuweekid": 2,
+        "Date": "2025-11-27T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Esparguete \u00E0 bolonhesa",
+        "Soup": "Sopa de feij\u00E3o verde",
+        "Dessert": "Iogurte",
+        "Notes": "Cl\u00E1ssico preferido dos alunos.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 18,
+        "menuweekid": 2,
+        "Date": "2025-11-27T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Esparguete com bolonhesa de lentilhas",
+        "Soup": "Sopa de ervilhas",
+        "Dessert": "Mousse de fruta",
+        "Notes": "Alternativa vegan saborosa.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 19,
+        "menuweekid": 2,
+        "Date": "2025-11-28T00:00:00+00:00",
+        "option": "A",
+        "MainDish": "Filetes de peixe com arroz de tomate",
+        "Soup": "Sopa de peixe",
+        "Dessert": "Bolo de cenoura",
+        "Notes": "Para terminar bem a semana.",
+        "MaxSeats": 30
+      },
+      {
+        "Id": 20,
+        "menuweekid": 2,
+        "Date": "2025-11-28T00:00:00+00:00",
+        "option": "B",
+        "MainDish": "Hamb\u00FArguer de gr\u00E3o e batata-doce",
+        "Soup": "Sopa de lentilhas",
+        "Dessert": "Fruta da \u00E9poca",
+        "Notes": "Encerramento leve e nutritivo.",
+        "MaxSeats": 30
+      }
+    ]
+  }
+]

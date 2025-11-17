@@ -1,0 +1,12 @@
+﻿@model BarEscolar.Models.MenuDay
+
+<h2>Editar Limite de Vagas</h2>
+
+<form method="post" asp-action="EditMaxSeats">
+    <input type="hidden" name="dayId" value="@Model.Id" />
+
+    <label>Max Seats</label>
+    <input name="maxSeats" type="number" value="@Model.MaxSeats" class="form-control" />
+
+    <button class="btn btn-primary mt-2">Guardar</button>
+</form>

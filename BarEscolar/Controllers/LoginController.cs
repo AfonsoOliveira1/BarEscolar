@@ -7,39 +7,39 @@ namespace BarEscolar.Controllers
     public class LoginController : Controller
     {
         private readonly Authentication _authentication;
+
         public LoginController(Authentication auth)
         {
             _authentication = auth;
         }
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(logindata data)
         {
-           var authenticated = _authentication.Login(email, password);
-           var user = _authentication.CurrentUser;
+            if (!ModelState.IsValid)
+                return View(data);
 
-            if (authenticated == false || user == null) return View("Email ou palavra-passe incorretos.");
+            var authenticated = _authentication.Login(data.EmailOrUsername, data.Password);
+            var user = _authentication.CurrentUser;
 
-            if (user.role == UserRole.Admin)//Admin
+            if (!authenticated || user == null)
             {
-                return RedirectToAction("Admin", new { id = user.ID });
+                ModelState.AddModelError("", "Email ou palavra-passe incorretos.");
+                return View(data);
             }
-            else if (user.role == UserRole.Funcionario)//Funcionario
+
+            return user.role switch
             {
-                return RedirectToAction("Index", "Funcionarios", new {id = user.ID});
-            }
-            else if (user.role == UserRole.Aluno)//Aluno
-            {
-                return RedirectToAction("Index", "Aluno", new { id = user.ID });
-            }
-            else
-            {
-                return NotFound();
-            }
+                UserRole.Admin => RedirectToAction("Index", "Admin"),
+                UserRole.Funcionario => RedirectToAction("Index", "Funcionarios", new { id = user.ID }),
+                UserRole.Aluno => RedirectToAction("Index", "Aluno", new { id = user.ID }),
+                _ => NotFound()
+            };
         }
 
         public IActionResult Register()

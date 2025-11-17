@@ -1,20 +1,24 @@
-﻿@{
+﻿@model BarEscolar.Models.logindata
+@{
     ViewData["Title"] = "Login";
 }
 
 <h1>Login</h1>
 
-<form method="post">
+<form asp-action="Login" method="post">
     <div>
-        <label>Email:</label>
-        <input type="email" name="email" required />
+        <label asp-for="EmailOrUsername"></label>
+        <input asp-for="EmailOrUsername" />
+        <span asp-validation-for="EmailOrUsername" class="text-danger"></span>
     </div>
 
     <div>
-        <label>Palavra-passe:</label>
-        <input type="password" name="password" required />
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <button type="submit">Entrar</button>
     <a asp-action="Register" class="btn-secondary">Registrar</a>
 </form>
+

@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "ID": "1719e90f-7db3-4884-aa91-d7c496855121",
+    "UserName": "Afonsus",
+    "FullName": "Admin",
+    "Email": "fonso@gmail.com",
+    "passwordhash": "AQAAAAIAAYagAAAAEB8kPdpluuiLud2RwcJ1VnXR0OaEYP56Auyo9Lyxa0JkcfilH8ojAMt4UY1A5ha\u002BAQ==",
+    "role": 2
+  },
+  {
+    "ID": "0f102f72-4b55-4c38-9988-901a04631c02",
+    "UserName": "joao",
+    "FullName": "joao",
+    "Email": "joao@joao.net",
+    "passwordhash": "AQAAAAIAAYagAAAAEIZTMZ/g519xgpI11zxKuwZ8fer19aoaoW3BPgexBUxWk2rNz4igJKDPSsXHXTQ/ag==",
+    "role": 0
+  },
+  {
+    "ID": "bbe4c4f3-244c-41d4-ad94-8464eca6f63d",
+    "UserName": "Miguel",
+    "FullName": "Miguel Soares",
+    "Email": "miguel@miguel.com",
+    "passwordhash": "AQAAAAIAAYagAAAAEAwb/I4CI64i3GaPaf4GhJoFHlnGdeklEb0bGz9ufVAl5mS4wYS7ZL8DoAFTBiV6nA==",
+    "role": 0
+  },
+  {
+    "ID": "ab11c904-33e6-44df-bae4-468e338cfffc",
+    "UserName": "eu",
+    "FullName": "eu",
+    "Email": "eu@eu.net",
+    "passwordhash": "AQAAAAIAAYagAAAAEEGZ9gacC5of6TpFQsIpcHyJtMEotD/0DgoW6Vp/9Cs1I3m5MfPHzcxwSPMx0DcaHQ==",
+    "role": 0
+  }
+]

@@ -1,0 +1,15 @@
+﻿@model BarEscolar.Models.Category
+
+<h2>Editar Categoria</h2>
+
+<form asp-action="EditCategory" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Nome</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Guardar Alterações</button>
+    <a asp-action="Categories" class="btn btn-secondary mt-2">Cancelar</a>
+</form>

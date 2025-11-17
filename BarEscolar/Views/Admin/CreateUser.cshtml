@@ -1,0 +1,37 @@
+﻿@model BarEscolar.Models.Users
+@{
+    ViewData["Title"] = "Criar Utilizador";
+}
+
+<h1>Criar Utilizador</h1>
+
+<form asp-action="CreateUser" method="post">
+    <div class="form-group">
+        <label>Nome Completo</label>
+        <input asp-for="FullName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Username</label>
+        <input asp-for="UserName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Palavra-passe</label>
+        <input type="password" class="form-control" name="password" required />
+    </div>
+    <div class="form-group">
+        <label>Função</label>
+        <select asp-for="role" class="form-control">
+            <option value="Aluno">Aluno</option>
+            <option value="Funcionario">Funcionário</option>
+            <option value="Admin">Administrador</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">Criar</button>
+</form>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">
+    Voltar ao Dashboard
+</a>

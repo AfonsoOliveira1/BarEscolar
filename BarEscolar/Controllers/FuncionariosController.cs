@@ -5,7 +5,7 @@ namespace BarEscolar.Controllers
 {
     public class FuncionariosController : Controller
     {
-        public IActionResult Index(int id)
+        /*public IActionResult Index(int id)
         {
             ViewBag.User = Generics.users.FirstOrDefault(u => u.ID == id); ;
             return View(Generics.products.AsEnumerable());
@@ -53,6 +53,6 @@ namespace BarEscolar.Controllers
             produto.Allergens = model.Allergens;
 
             return RedirectToAction("Index");
-        }
+        }*/
     }
 }

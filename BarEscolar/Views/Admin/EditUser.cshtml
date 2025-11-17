@@ -1,0 +1,38 @@
+﻿@model BarEscolar.Models.Users
+@{
+    ViewData["Title"] = "Editar Utilizador";
+}
+
+<h1>Editar Utilizador</h1>
+
+<form asp-action="EditUser" method="post">
+    <input type="hidden" asp-for="ID" />
+    <div class="form-group">
+        <label>Nome Completo</label>
+        <input asp-for="FullName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Username</label>
+        <input asp-for="UserName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Palavra-passe (deixar vazio para manter)</label>
+        <input asp-for="passwordhash" type="password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Função</label>
+        <select name="role" class="form-control">
+            <option value="Admin" selected="@((Model.role.ToString() == "Admin"))">Admin</option>
+            <option value="Aluno" selected="@((Model.role.ToString() == "Aluno"))">Aluno</option>
+            <option value="Funcionario" selected="@((Model.role.ToString() == "Funcionario"))">Funcionario</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Guardar Alterações</button>
+</form>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">
+    Voltar ao Dashboard
+</a>

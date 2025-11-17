@@ -1,0 +1,45 @@
+﻿@model BarEscolar.Models.MenuWeek
+
+<h2>Editar Semana - @Model.weekstart</h2>
+
+<p>Dia | Opção | Prato Principal | Sopa | Sobremesa | Notas | MaxSeats | Ações</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Opção</th>
+            <th>Prato Principal</th>
+            <th>Sopa</th>
+            <th>Sobremesa</th>
+            <th>Notas</th>
+            <th>MaxSeats</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var day in Model.menuDays)
+        {
+            <tr>
+                <td>@day.Date.ToString("yyyy-MM-dd")</td>
+                <td>@day.option</td>
+                <td>@day.MainDish</td>
+                <td>@day.Soup</td>
+                <td>@day.Dessert</td>
+                <td>@day.Notes</td>
+                <td>@day.MaxSeats</td>
+                <td>
+                    <a asp-action="EditDay" asp-route-dayId="@day.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <form asp-action="DeleteDay" asp-route-dayId="@day.Id" method="post" style="display:inline-block">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Apagar este dia?');">
+                            Apagar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Voltar</a>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BarEscolar.Models.Category>
+
+<h2>Categorias</h2>
+
+<a class="btn btn-success" asp-action="CreateCategory">Nova Categoria</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Id</td>
+                <td>@c.Name</td>
+                <td>
+                    <a asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-sm btn-warning">Editar</a>
+
+                    <form asp-action="DeleteCategory"
+                          asp-route-id="@c.Id"
+                          method="post"
+                          style="display:inline-block">
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Tem a certeza que quer apagar esta categoria?');">
+                            Apagar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" asp-controller="Admin" class="btn btn-secondary mt-4">
+    Voltar ao Dashboard
+</a>

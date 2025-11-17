@@ -1,0 +1,53 @@
+﻿@model BarEscolar.Models.MenuDay
+
+@{
+    ViewData["Title"] = "Editar Dia do Menu";
+}
+
+<h2>Editar Dia do Menu</h2>
+
+<form asp-action="EditDay" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="menuweekid" />
+
+    <div class="mb-3">
+        <label asp-for="Date" class="form-label"></label>
+        <input asp-for="Date" class="form-control" type="date" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="option" class="form-label">Opção</label>
+        <select asp-for="option" class="form-select">
+            <option value="A">A</option>
+            <option value="B">B</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MainDish" class="form-label"></label>
+        <input asp-for="MainDish" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Soup" class="form-label"></label>
+        <input asp-for="Soup" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Dessert" class="form-label"></label>
+        <input asp-for="Dessert" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notes" class="form-label"></label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaxSeats" class="form-label"></label>
+        <input asp-for="MaxSeats" class="form-control" type="number" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    <a asp-action="EditWeek" asp-route-id="@Model.menuweekid" class="btn btn-secondary">Cancelar</a>
+</form>

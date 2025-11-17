@@ -1,0 +1,35 @@
+{
+  "Products": [
+    {
+      "Id": 1,
+      "Name": "salmao",
+      "Description": "pexei bem bom ya",
+      "Price": 2,
+      "CategoryId": 1,
+      "Kcal": 300,
+      "Protein": 1,
+      "Fat": 4,
+      "Carbs": 10,
+      "Salt": 2,
+      "Allergens": null,
+      "Stock": 30,
+      "IsActive": true
+    },
+    {
+      "Id": 2,
+      "Name": "Pipocas",
+      "Description": "asfaf",
+      "Price": -5,
+      "CategoryId": 3,
+      "Kcal": 5,
+      "Protein": 0,
+      "Fat": 3,
+      "Carbs": 0,
+      "Salt": 0,
+      "Allergens": null,
+      "Stock": 99999999,
+      "IsActive": true
+    }
+  ],
+  "Categories": []
+}

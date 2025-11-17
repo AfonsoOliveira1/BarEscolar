@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BarEscolar.Models.Product>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<h2>Produtos</h2>
+
+<a class="btn btn-success mb-3" asp-action="CreateProduct">Novo Produto</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Categoria</th>
+            <th>Stock</th>
+            <th>Ativo?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.Price €</td>
+                <td>@p.CategoryId</td>
+                <td>@p.Stock</td>
+                <td>@(p.IsActive ? "Sim" : "Não")</td>
+                <td>
+                    <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn btn-warning btn-sm">Editar</a>
+
+                    <form asp-action="DeleteProduct" asp-route-id="@p.Id" method="post" style="display:inline-block">
+                        <button class="btn btn-danger btn-sm"
+                                onclick="return confirm('Apagar este produto?');">
+                            Apagar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Voltar ao Dashboard</a>

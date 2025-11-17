@@ -2,13 +2,18 @@
 @{
     ViewData["Title"] = "Menu";
 }
+
 <h1>Menu do Dia</h1>
 
 <p><strong>Prato Principal:</strong> @Model.MainDish</p>
 <p><strong>Sopa:</strong> @Model.Soup</p>
 <p><strong>Sobremesa:</strong> @Model.Dessert</p>
 <p><strong>Descrição:</strong> @Model.Notes</p>
+<p><strong>Tipo:</strong> @(Model.option == "A" ? "Não-Vegan" : "Vegan")</p>
 
-<a asp-action="MarcarConfirmed" asp-route-id="@ViewBag.User.ID" asp-route-prodId="@Model.Id">Marcar</a>
-
-
+<a asp-action="MarcarConfirmed" 
+   asp-route-id="@ViewBag.User.ID" 
+   asp-route-menuId="@Model.Id" 
+   class="btn btn-success">
+   Confirmar Marcação
+</a>

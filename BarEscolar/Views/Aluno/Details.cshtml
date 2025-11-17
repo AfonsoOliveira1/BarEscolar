@@ -1,3 +1,51 @@
-﻿
+﻿@model BarEscolar.Models.Order
 @{
+    ViewData["Title"] = "Detalhes do Pedido";
+    var orderItems = ViewBag.OrderItems as List<BarEscolar.Models.OrderItem>;
+    var menus = ViewBag.Menus as List<BarEscolar.Models.MenuDay>;
 }
+
+<h1>Detalhes do Pedido</h1>
+
+<p><strong>ID do Pedido:</strong> @Model.Id</p>
+<p><strong>Data:</strong> @Model.Createdat.ToString("dd/MM/yyyy HH:mm")</p>
+<p><strong>Total:</strong> @Model.Total.ToString("C")</p>
+
+<h3>Menus Marcados</h3>
+
+@if (orderItems == null || !orderItems.Any())
+{
+    <p>Nenhum menu associado a este pedido.</p>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Data</th>
+                <th>Prato Principal</th>
+                <th>Sopa</th>
+                <th>Sobremesa</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in orderItems)
+            {
+                var menu = menus?.FirstOrDefault(m => m.Id == item.Productid);
+                if (menu != null)
+                {
+                    <tr>
+                        <td>@menu.Date.ToString("dd/MM/yyyy")</td>
+                        <td>@menu.MainDish</td>
+                        <td>@menu.Soup</td>
+                        <td>@menu.Dessert</td>
+                        <td>@(menu.option == "A" ? "Não-Vegan" : "Vegan")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="MenusMarcados" asp-route-id="@Model.Userid" class="btn btn-secondary">Voltar</a>

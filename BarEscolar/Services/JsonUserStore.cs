@@ -55,7 +55,7 @@ namespace BarEscolar.Services
             }
         }
 
-        private void Save()
+        public void Save()
         {
             var json = JsonSerializer.Serialize(m_users, new JsonSerializerOptions
             {

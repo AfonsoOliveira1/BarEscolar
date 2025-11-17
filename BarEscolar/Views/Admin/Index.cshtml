@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+
+<ul>
+    <li>Total Semanas de Menu: @ViewBag.Weeks.Count</li>
+    <li>Total Produtos: @ViewBag.Products.Count</li>
+    <li>Total Categorias: @ViewBag.Categories.Count</li>
+</ul>
+
+<p><a class="btn btn-primary" asp-action="MenuWeeks" asp-controller="Admin">Gerir Menus</a></p>
+<p><a class="btn btn-primary" asp-action="Categories" asp-controller="Admin">Gerir Categorias</a></p>
+<p><a class="btn btn-primary" asp-action="Products" asp-controller="Admin">Gerir Produtos</a></p>
+<a class="btn btn-primary" asp-action="Users" asp-controller="Admin">Gerir Utilizadores</a>
