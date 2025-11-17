@@ -8,6 +8,7 @@ namespace BarEscolar.Controllers
 {
     public class AlunoController : Controller
     {
+        string a = "a";
         private readonly JsonUserStore _userStore;
         private readonly JsonMenuStore _menuStore;
         private readonly JsonOrderStore _orderStore;
