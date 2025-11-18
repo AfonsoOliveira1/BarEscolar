@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BarEscolar.Models.Products>
+﻿@model IEnumerable<BarEscolar.Models.Product>
 @{
     ViewData["Title"] = "Funcionario";
 }
@@ -26,7 +26,7 @@
                 <td>@prod.Price</td>
                 <td>@prod.Stock</td>
                 <td>@prod.Description</td>
-                <td>@prod.Categoryid</td>
+                <td>@prod.CategoryId</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@prod.Id">Detalhes</a> |
                     <a asp-action="Edit" asp-route-id="@prod.Id">Editar</a> |

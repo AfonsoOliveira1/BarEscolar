@@ -1,4 +1,4 @@
-﻿@model BarEscolar.Models.Products
+﻿@model BarEscolar.Models.Product
 
 <h2>Editar Produto</h2>
 
@@ -19,7 +19,7 @@
         <input asp-for="Description" class="form-control" />
 
         <label>Categoria</label>
-        <select asp-for="Categoryid" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
 
         <label asp-for="Kcal"></label>
         <input asp-for="Kcal" class="form-control" />
