@@ -1,0 +1,30 @@
+﻿@model BarEscolar.Models.Product
+@{
+    ViewData["Title"] = "Detalhes do Produto";
+}
+<h1>Detalhes do Produto</h1>
+
+<p><strong>Nome:</strong> @Model.Name</p>
+<p><strong>Descrição:</strong> @Model.Description</p>
+<p><strong>Preço:</strong> @Model.Price</p>
+<p><strong>Stock:</strong> @Model.Stock</p>
+<p>
+    <strong>Categoria:</strong>
+    @{
+        List<Category> categorys = ViewBag.Categorys;
+        var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
+        @category?.Name;
+    }
+</p>
+<p><strong>Kcal:</strong>@Model.Kcal</p>
+<p><strong>Protein:</strong>@Model.Protein</p>
+<p><strong>Fat:</strong>@Model.Fat</p>
+<p><strong>Carbs:</strong>@Model.Carbs</p>
+<p><strong>Salt:</strong>@Model.Salt</p>
+<p><strong>Allergens:</strong>@Model.Allergens</p>
+
+<a asp-action="Bar"
+   asp-route-id="@ViewBag.User.ID"
+   class="btn btn-primary">
+    Voltar ao Bar da Escola
+</a>

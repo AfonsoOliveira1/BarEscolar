@@ -3,21 +3,25 @@ using BarEscolar.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Numerics;
 
 namespace BarEscolar.Controllers
 {
     public class AlunoController : Controller
     {
-        string a = "as";
         private readonly JsonUserStore _userStore;
         private readonly JsonMenuStore _menuStore;
         private readonly JsonOrderStore _orderStore;
+        private readonly JsonProductStore _productStore;
+        private readonly JsonCategoryStore _categoryStore;
 
-        public AlunoController(JsonUserStore userStore, JsonMenuStore menuStore, JsonOrderStore orderStore)
+        public AlunoController(JsonUserStore userStore, JsonMenuStore menuStore, JsonOrderStore orderStore, JsonProductStore productStore, JsonCategoryStore categoryStore)
         {
             _userStore = userStore;
             _menuStore = menuStore;
             _orderStore = orderStore;
+            _productStore = productStore;
+            _categoryStore = categoryStore;
         }
 
         // ----------------- Menus da Semana -----------------
@@ -191,5 +195,60 @@ namespace BarEscolar.Controllers
             return RedirectToAction("MenusMarcados", new { id });
         }
 
+        // ----------------- Bar da Escola -----------------
+        public IActionResult Bar(string id)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+
+            var userOrderItems = _orderStore.GetOrdersByUser(id)
+                                .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
+                                .ToList();
+
+            ViewBag.MarkedMenuIds = userOrderItems.Select(oi => oi.Productid).ToList();
+
+            ViewBag.RemainingStocks = userOrderItems
+                                     .GroupBy(oi => oi.Productid)
+                                     .ToDictionary(g => g.Key, g => g.Count());
+            ViewBag.Categorys = _categoryStore.GetAll();
+
+            var prod = _productStore.GetAllProducts();
+            return View(prod);
+        }
+
+        // ----------------- Details Produto -----------------
+        public IActionResult DetailsProd(string id, int prodid)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var prods = _productStore.GetAllProducts();
+            var prod = prods.FirstOrDefault(p => p.Id == prodid);
+            ViewBag.Categorys = _categoryStore.GetAll();
+            return View(prod);
+        }
+
+        // ----------------- Comprar Menu -----------------
+        public IActionResult Comprar(string id, int prodid)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var prods = _productStore.GetAllProducts();
+            var prod = prods.FirstOrDefault(p => p.Id == prodid);
+            ViewBag.Categorys = _categoryStore.GetAll();
+            return View(prod);
+        }
+
+        public IActionResult ComprarConfirmed(string id, int prodid)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var prods = _productStore.GetAllProducts();
+            var prod = prods.FirstOrDefault(p => p.Id == prodid);
+            return View(prod);
+        }
     }
 }

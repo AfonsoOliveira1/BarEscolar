@@ -2,12 +2,21 @@
 {
     public class Product
     {
+        private double _price;
         public string Imagepath { get; set; } = string.Empty;
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Price { get;
-            set;
+        public double Price
+        {
+            get { return _price; }
+            set
+            {
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("Price cannot be negative");
+                else
+                    _price = value;
+            }
         }
 
         public int CategoryId { get; set; }

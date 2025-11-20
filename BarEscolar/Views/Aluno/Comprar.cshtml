@@ -1,0 +1,26 @@
+﻿@model BarEscolar.Models.Product
+@{
+    ViewData["Title"] = "Comprar Produto";
+}
+
+<h1>Produto</h1>
+
+<p><strong>Nome:</strong> @Model.Name</p>
+<p><strong>Descrição:</strong> @Model.Description</p>
+<p><strong>Preço:</strong> @Model.Price</p>
+<p><strong>Stock:</strong> @Model.Stock</p>
+<p>
+    <strong>Categoria:</strong> 
+    @{
+        List<Category> categorys = ViewBag.Categorys;
+        var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
+        @category?.Name;
+    }
+</p>
+
+<a asp-action="ComprarConfirmed"
+   asp-route-id="@ViewBag.User.ID"
+   asp-route-menuId="@Model.Id"
+   class="btn btn-success">
+    Confirmar Marcação
+</a>

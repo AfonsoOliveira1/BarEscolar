@@ -5,7 +5,7 @@ namespace BarEscolar.Services
 {
     public class JsonCategoryStore
     {
-        private readonly string _path = Path.Combine("Data", "categories.json");
+        private readonly string _path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "categories.json");
         private List<Category> _categories;
         private static readonly object _lock = new();
 

@@ -7,8 +7,6 @@ namespace BarEscolar.Services
     {
         private readonly string _path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "products.json");
         private List<Product> _products = new();
-        private List<Category> _categories = new();
-
         public JsonProductStore()
         {
             if (!File.Exists(_path))
@@ -27,18 +25,11 @@ namespace BarEscolar.Services
 
             var data = JsonSerializer.Deserialize<JsonData>(json) ?? new JsonData();
             _products = data.Products;
-            _categories = data.Categories;
         }
 
         public List<Product> GetAllProducts() => _products;
-        public List<Category> GetAllCategories() => _categories;
-
         public Product? FindById(int id) => _products.FirstOrDefault(p => p.Id == id);
-        public Category? FindCategoryById(int id) => _categories.FirstOrDefault(c => c.Id == id);
-
         public int GetNextProductId() => _products.Any() ? _products.Max(p => p.Id) + 1 : 1;
-        public int GetNextCategoryId() => _categories.Any() ? _categories.Max(c => c.Id) + 1 : 1;
-
         public void Add(Product product)
         {
             _products.Add(product);
@@ -66,40 +57,12 @@ namespace BarEscolar.Services
             }
         }
 
-        public void AddCategory(Category category)
-        {
-            _categories.Add(category);
-            Save();
-        }
-
-        public void UpdateCategory(Category category)
-        {
-            var old = FindCategoryById(category.Id);
-            if (old != null)
-            {
-                _categories.Remove(old);
-                _categories.Add(category);
-                Save();
-            }
-        }
-
-        public void RemoveCategory(int id)
-        {
-            var cat = FindCategoryById(id);
-            if (cat != null)
-            {
-                _categories.Remove(cat);
-                Save();
-            }
-        }
-
         public void Save()
         {
             var json = JsonSerializer.Serialize(
                 new JsonData
                 {
                     Products = _products,
-                    Categories = _categories
                 },
                 new JsonSerializerOptions { WriteIndented = true }
             );
@@ -110,7 +73,6 @@ namespace BarEscolar.Services
         private class JsonData
         {
             public List<Product> Products { get; set; } = new();
-            public List<Category> Categories { get; set; } = new();
         }
     }
 }
