@@ -65,16 +65,21 @@ namespace BarEscolar.Controllers
 
         public IActionResult CreateDay(int weekId)
         {
-            ViewBag.WeekId = weekId;
-            return View();
+            var day = new MenuDay
+            {
+                menuweekid = weekId,
+                Date = DateTime.Today
+            };
+            return View(day);
         }
 
         [HttpPost]
-        public IActionResult CreateDay(int weekId, MenuDay day)
+        public IActionResult CreateDay(int weekId,MenuDay day)
         {
             day.Id = _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).Any()
                 ? _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).Max(d => d.Id) + 1
                 : 1;
+
             day.menuweekid = weekId;
             _menuStore.AddDayToWeek(weekId, day);
             return RedirectToAction("EditWeek", new { id = weekId });

@@ -1,8 +1,9 @@
 ﻿@model BarEscolar.Models.MenuWeek
 
 <h2>Editar Semana - @Model.weekstart</h2>
-
 <p>Dia | Opção | Prato Principal | Sopa | Sobremesa | Notas | MaxSeats | Ações</p>
+
+<a asp-action="CreateDay" asp-route-weekId="@Model.id" class="btn btn-success mt-3">Criar Dia</a>
 
 <table class="table">
     <thead>
@@ -17,7 +18,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody> 
         @foreach (var day in Model.menuDays)
         {
             <tr>

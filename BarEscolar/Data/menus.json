@@ -15,17 +15,6 @@
         "MaxSeats": 50
       },
       {
-        "Id": 2,
-        "menuweekid": 1,
-        "Date": "2025-11-17T00:00:00+00:00",
-        "option": "B",
-        "MainDish": "Tofu salteado com legumes e arroz integral",
-        "Soup": "Creme de ab\u00F3bora",
-        "Dessert": "Pera",
-        "Notes": "Op\u00E7\u00E3o vegan rica em prote\u00EDna.",
-        "MaxSeats": 30
-      },
-      {
         "Id": 3,
         "menuweekid": 1,
         "Date": "2025-11-18T00:00:00+00:00",
@@ -230,5 +219,20 @@
         "MaxSeats": 30
       }
     ]
+  },
+  {
+    "id": 3,
+    "weekstart": "0001-01-01",
+    "menuDays": []
+  },
+  {
+    "id": 4,
+    "weekstart": "0001-01-01",
+    "menuDays": []
+  },
+  {
+    "id": 5,
+    "weekstart": "0001-01-01",
+    "menuDays": []
   }
 ]

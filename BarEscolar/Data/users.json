@@ -30,5 +30,13 @@
     "Email": "eu@eu.net",
     "passwordhash": "AQAAAAIAAYagAAAAEEGZ9gacC5of6TpFQsIpcHyJtMEotD/0DgoW6Vp/9Cs1I3m5MfPHzcxwSPMx0DcaHQ==",
     "role": 0
+  },
+  {
+    "ID": "d3badb2d-70e9-471b-bc99-871b7ecabd86",
+    "UserName": "func",
+    "FullName": "func",
+    "Email": "func@func.net",
+    "passwordhash": "AQAAAAIAAYagAAAAEP8XDg6rqKAiEG2yYHywIG1NpXU0jCSEC8VctchKdep/fByY6Vxnxij2DyAfseHaCw==",
+    "role": 1
   }
 ]
