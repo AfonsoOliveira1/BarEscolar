@@ -1,35 +1,36 @@
 {
   "Products": [
     {
-      "Id": 1,
-      "Name": "salmao",
-      "Description": "pexei bem bom ya",
-      "Price": 2,
+      "Imagepath": "",
+      "Id": 3,
+      "Name": "awsd",
+      "Description": "asdwawsd",
+      "Price": 12,
       "CategoryId": 1,
-      "Kcal": 300,
-      "Protein": 1,
-      "Fat": 4,
-      "Carbs": 10,
-      "Salt": 2,
-      "Allergens": null,
-      "Stock": 30,
-      "IsActive": true
+      "Kcal": 12,
+      "Protein": 12,
+      "Fat": 12,
+      "Carbs": 121,
+      "Salt": 212,
+      "Allergens": "asdasd",
+      "Stock": 12,
+      "IsActive": false
     },
     {
-      "Id": 2,
-      "Name": "Pipocas",
-      "Description": "asfaf",
-      "Price": 5,
-      "CategoryId": 3,
-      "Kcal": 5,
-      "Protein": 0,
-      "Fat": 3,
-      "Carbs": 0,
-      "Salt": 0,
-      "Allergens": null,
-      "Stock": 99999999,
+      "Imagepath": "",
+      "Id": 4,
+      "Name": "afdawsdfwd",
+      "Description": null,
+      "Price": 12,
+      "CategoryId": 1,
+      "Kcal": 12,
+      "Protein": 12,
+      "Fat": 12,
+      "Carbs": 12,
+      "Salt": 12,
+      "Allergens": "adwsd",
+      "Stock": 342,
       "IsActive": true
     }
-  ],
-  "Categories": []
+  ]
 }

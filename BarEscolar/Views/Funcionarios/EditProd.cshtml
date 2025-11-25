@@ -2,10 +2,12 @@
 
 <h2>Editar Produto</h2>
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="EditProd" method="post">
+    <input type="hidden" name="UserId" value="@ViewBag.User.ID" />
+    <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="mb-2">
+        <p>Id do produto: @Model.Id</p>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
 
@@ -45,5 +47,5 @@
 </form>
 
 <p>
-    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary">Voltar</a>
 </p>

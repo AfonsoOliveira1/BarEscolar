@@ -11,10 +11,9 @@
 <p>
     <strong>Categoria:</strong>
     @{
-        List<Category> categorys = ViewBag.Categorys;
-        var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
-        @category?.Name
-        ;
+        List<Category> categories = ViewBag.Categories;
+        var category = categories?.FirstOrDefault(c => c.Id == Model.CategoryId);
+        @category?.Name;
     }
 </p>
 <p><strong>Kcal:</strong>@Model.Kcal</p>
@@ -27,5 +26,5 @@
 <a asp-action="Index"
    asp-route-id="@ViewBag.User.ID"
    class="btn btn-primary">
-    Voltar ao Bar da Escola
+    Voltar
 </a>

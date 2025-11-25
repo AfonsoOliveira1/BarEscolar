@@ -1,54 +1,90 @@
 ﻿@model IEnumerable<BarEscolar.Models.Product>
 @{
     ViewData["Title"] = "Funcionario";
+    List<Category> categories = ViewBag.Categories;
 }
-@if (!Model.Any())
-{
-    <p>Não existem Produtos no Bar da Escola.</p>
-}
-else
-{
-    <h1>Bem-vindo, @ViewBag.User.FullName!</h1>
-    <h2>Produtos do Bar</h2>
 
-    <table class="table table-striped">
-        <thead>
+<p>Não existem Produtos no Bar da Escola.</p>
+<a class="btn btn-success mb-3" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
+
+<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+<h2>Produtos do Bar</h2>
+<a class="btn btn-success mb-3" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Stock</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model)
+        {
             <tr>
-                <th>Imagem</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Stock</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Detalhes</th>
-                <th></th>
+                <td>@prod.Imagepath</td>
+                <td>@prod.Name</td>
+                <td>@prod.Price</td>
+                <td>@prod.Stock</td>
+                <td>@prod.Description</td>
+                <td>
+                    @{
+                        var category = categories?.FirstOrDefault(c => c.Id == prod.CategoryId);
+                        @category?.Name;
+                    }
+                </td>
+                <td>
+                    <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a> |
+                    <a asp-controller="Funcionarios" asp-action="EditProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Editar</a> |
+                    <form asp-action="DeleteProd" method="post" style="display:inline;">
+						<input type="hidden" name="userid" value="@ViewBag.User.ID" />
+                        <input type="hidden" name="prodid" value="@prod.Id" />
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Apagar</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var prod in Model)
-            {
-                <tr>
-                    <td>@prod.Imagepath</td>
-                    <td>@prod.Name</td>
-                    <td>@prod.Price</td>
-                    <td>@prod.Stock</td>
-                    <td>@prod.Description</td>
-                    <td>
-                        @{
-                            List<Category> categorys = ViewBag.Categorys;
-                            var category = categorys?.FirstOrDefault(c => c.Id == prod.CategoryId);
-                            @category?.Name
-                            ;
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a> |
-                        <a asp-action="EditProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Editar</a> |
-                        <a asp-action="DeleteProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Apagar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <h2>Pedidos</h2>
-}
+        }
+    </tbody>
+</table>
+<h2>Categorias</h2>
+<a class="btn btn-success" asp-action="CreateCat" asp-route-id="@ViewBag.User.ID">Nova Categoria</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in categories)
+        {
+            <tr>
+                <td>@c.Id</td>
+                <td>@c.Name</td>
+                <td>
+                    <a asp-action="EditCat" asp-route-id="@ViewBag.User.ID" asp-route-catid="@c.Id" class="btn btn-sm btn-warning">Editar</a>
+
+                    <form asp-action="DeleteCat"
+                            asp-route-id="@ViewBag.User.ID"
+                            asp-route-catid="@c.Id"
+                            method="post"
+                            style="display:inline-block">
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Tem a certeza que quer apagar esta categoria?');">
+                            Apagar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Pedidos</h2>

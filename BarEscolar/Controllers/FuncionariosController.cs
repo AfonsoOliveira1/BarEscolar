@@ -41,48 +41,113 @@ namespace BarEscolar.Controllers
             ViewBag.Categories = _categoryStore.GetAll();
             return View(_productStore.GetAllProducts());
         }
-
-        public IActionResult Details(int prodid)
+        //Prod CRUD
+        [HttpGet]
+        public IActionResult DetailsProd(string id, int prodid)
         {
             var product = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
             if (product == null)
                 return NotFound();
-            
+
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
             return View(product);
         }
 
         [HttpGet]
-        public IActionResult Edit(string id, int prodid)
+        public IActionResult EditProd(string id, int prodid)
         {
             var produto = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
 
             if (produto == null)
                 return NotFound();
 
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            ViewBag.User = user;
             ViewBag.Categories = _categoryStore.GetAll();
             return View(produto);
         }
-        [HttpPost] //guardar alterações
-        public IActionResult Edit(Product model, string id)
+        [HttpPost]
+        public IActionResult EditProd(string userId, Product model)
         {
             var produto = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == model.Id);
 
             if (produto == null)
                 return NotFound();
+            _productStore.Update(model);
+            return RedirectToAction("Index", new { ID = userId });
+        }
+        [HttpPost]
+        public IActionResult DeleteProd(string userid, int prodid)
+        {
+            var produto = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
+            if (produto == null)
+                return NotFound();
+            _productStore.Remove(prodid);
+            return RedirectToAction("Index", new { ID = userid });
+        }
+        [HttpGet]
+        public IActionResult CreateProd(string id)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            ViewBag.Categories = _categoryStore.GetAll();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateProd(string userId, Product model)
+        {
+            model.Id = _productStore.GetNextProductId();
+            _productStore.Add(model);
+            return RedirectToAction("Index", new { ID = userId });
+        }
+        //Category CRUD -----------------------------------
+        public IActionResult CreateCat(string id)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            ViewBag.Categories = _categoryStore.GetAll();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateCat(string userId, Category category)
+        {
+            _categoryStore.Add(category);
+            ViewBag.Categories = _categoryStore.GetAll();
+            return RedirectToAction("Index", new { ID = userId });
+        }
+        public IActionResult EditCat(string id, int catid)
+        {
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var category = _categoryStore.FindById(catid);
+            if (category == null) return NotFound();
+            return View(category);
+        }
 
-            produto.Name = model.Name;
-            produto.Price = model.Price;
-            produto.Stock = model.Stock;
-            produto.Description = model.Description;
-            produto.CategoryId = model.CategoryId;
-            produto.Kcal = model.Kcal;
-            produto.Protein = model.Protein;
-            produto.Fat = model.Fat;
-            produto.Carbs = model.Carbs;
-            produto.Salt = model.Salt;
-            produto.Allergens = model.Allergens;
+        [HttpPost]
+        public IActionResult EditCat(string userId, Category category)
+        {
+            _categoryStore.Update(category);
+            return RedirectToAction("Index", new { ID = userId });
+        }
 
-            return RedirectToAction("Index");
+        [HttpPost]
+        public IActionResult DeleteCat(string id, int catid)
+        {
+            _categoryStore.Delete(catid);
+            return RedirectToAction("Index", new { ID = id });
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model BarEscolar.Models.Category
+
+<h2>Nova Categoria</h2>
+
+<form asp-action="CreateCat" method="post">
+    <input type="hidden" name="userId" value="@ViewBag.User.ID" />
+
+    <div class="form-group">
+        <label>Nome</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Guardar</button>
+    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-2">Cancelar</a>
+</form>
