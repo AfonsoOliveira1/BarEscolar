@@ -229,10 +229,5 @@
     "id": 4,
     "weekstart": "0001-01-01",
     "menuDays": []
-  },
-  {
-    "id": 5,
-    "weekstart": "0001-01-01",
-    "menuDays": []
   }
 ]

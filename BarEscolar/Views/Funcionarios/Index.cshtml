@@ -2,38 +2,53 @@
 @{
     ViewData["Title"] = "Funcionario";
 }
-<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+@if (!Model.Any())
+{
+    <p>Não existem Produtos no Bar da Escola.</p>
+}
+else
+{
+    <h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+    <h2>Produtos do Bar</h2>
 
-<h1>Produtos</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Imagem</th>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Stock</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var prod in Model)
-        {
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@prod.Imagepath</td>
-                <td>@prod.Name</td>
-                <td>@prod.Price</td>
-                <td>@prod.Stock</td>
-                <td>@prod.Description</td>
-                <td>@prod.CategoryId</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@prod.Id">Detalhes</a> |
-                    <a asp-action="Edit" asp-route-id="@prod.Id">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@prod.Id">Apagar</a>
-                </td>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Stock</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Detalhes</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-<h1>Pedidos</h1>
+        </thead>
+        <tbody>
+            @foreach (var prod in Model)
+            {
+                <tr>
+                    <td>@prod.Imagepath</td>
+                    <td>@prod.Name</td>
+                    <td>@prod.Price</td>
+                    <td>@prod.Stock</td>
+                    <td>@prod.Description</td>
+                    <td>
+                        @{
+                            List<Category> categorys = ViewBag.Categorys;
+                            var category = categorys?.FirstOrDefault(c => c.Id == prod.CategoryId);
+                            @category?.Name
+                            ;
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a> |
+                        <a asp-action="EditProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Editar</a> |
+                        <a asp-action="DeleteProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Apagar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h2>Pedidos</h2>
+}

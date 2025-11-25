@@ -2,6 +2,7 @@
 using BarEscolar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace BarEscolar.Controllers
 {
@@ -12,6 +13,7 @@ namespace BarEscolar.Controllers
         private readonly JsonCategoryStore _categoryStore;
         private readonly JsonUserStore _userStore;
         private readonly Authentication _auth;
+
 
         public AdminController(
             JsonMenuStore menuStore,
@@ -28,8 +30,18 @@ namespace BarEscolar.Controllers
         }
 
         // ---------------- DASHBOARD ----------------
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+            
             ViewBag.Weeks = _menuStore.GetAllWeeks();
             ViewBag.Products = _productStore.GetAllProducts();
             ViewBag.Categories = _categoryStore.GetAll();

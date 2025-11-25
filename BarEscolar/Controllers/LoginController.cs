@@ -1,5 +1,6 @@
 ﻿using BarEscolar.Models;
 using BarEscolar.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarEscolar.Controllers
@@ -33,9 +34,13 @@ namespace BarEscolar.Controllers
                 return View(data);
             }
 
+            HttpContext.Session.SetString("UserName", user.UserName);
+            HttpContext.Session.SetString("UserID", user.ID);
+            HttpContext.Session.SetString("UserRole", user.role.ToString());
+
             return user.role switch
             {
-                UserRole.Admin => RedirectToAction("Index", "Admin"),
+                UserRole.Admin => RedirectToAction("Index", "Admin", new { id = user.ID }),
                 UserRole.Funcionario => RedirectToAction("Index", "Funcionarios", new { id = user.ID }),
                 UserRole.Aluno => RedirectToAction("Index", "Aluno", new { id = user.ID }),
                 _ => NotFound()

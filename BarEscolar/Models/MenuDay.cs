@@ -2,7 +2,7 @@
 {
     public class MenuDay
     {
-        public int Id { get; set; }
+        public int Id { get; set; }        
         public int menuweekid { get; set; }
         public DateTime Date { get; set; }
         public string option { get; set; } = string.Empty; //I guess para vegan or no

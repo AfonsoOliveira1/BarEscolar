@@ -38,5 +38,13 @@
     "Email": "func@func.net",
     "passwordhash": "AQAAAAIAAYagAAAAEP8XDg6rqKAiEG2yYHywIG1NpXU0jCSEC8VctchKdep/fByY6Vxnxij2DyAfseHaCw==",
     "role": 1
+  },
+  {
+    "ID": "f3684f5f-a29c-486d-acf7-642b454e68f7",
+    "UserName": "gabriel",
+    "FullName": "Gabriel Dias",
+    "Email": "gabriel@gabriel.com",
+    "passwordhash": "AQAAAAIAAYagAAAAEFGUG\u002BWUjYKgGPQ8WuofeGmtR8uvekK3sKOv7dk26Nxy2Zs87SKFjhn0ylpiArpi\u002BA==",
+    "role": 0
   }
 ]

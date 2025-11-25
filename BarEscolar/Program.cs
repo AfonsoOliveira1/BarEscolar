@@ -7,6 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllersWithViews();
 
+// --- ATIVAR SESSÃO ---
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Register all JSON stores and authentication
 builder.Services.AddSingleton<JsonUserStore>();
 builder.Services.AddSingleton<JsonMenuStore>();
@@ -103,7 +111,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
-
+app.UseSession();
 // Configure middleware
 if (!app.Environment.IsDevelopment())
 {

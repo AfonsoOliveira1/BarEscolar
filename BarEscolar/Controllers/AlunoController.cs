@@ -2,6 +2,7 @@
 using BarEscolar.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 
@@ -14,22 +15,30 @@ namespace BarEscolar.Controllers
         private readonly JsonOrderStore _orderStore;
         private readonly JsonProductStore _productStore;
         private readonly JsonCategoryStore _categoryStore;
+        private readonly Authentication _auth;
 
-        public AlunoController(JsonUserStore userStore, JsonMenuStore menuStore, JsonOrderStore orderStore, JsonProductStore productStore, JsonCategoryStore categoryStore)
+        public AlunoController(JsonUserStore userStore, JsonMenuStore menuStore, JsonOrderStore orderStore, JsonProductStore productStore, JsonCategoryStore categoryStore, Authentication authentication)
         {
             _userStore = userStore;
             _menuStore = menuStore;
             _orderStore = orderStore;
             _productStore = productStore;
             _categoryStore = categoryStore;
+            _auth = authentication;
         }
 
         // ----------------- Menus da Semana -----------------
         public IActionResult Index(string id, string option = "A")
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
             if (user == null)
                 return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Aluno" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
 
             ViewBag.User = user;
 
