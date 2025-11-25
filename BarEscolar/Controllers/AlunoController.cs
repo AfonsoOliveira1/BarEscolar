@@ -249,15 +249,36 @@ namespace BarEscolar.Controllers
             ViewBag.Categorys = _categoryStore.GetAll();
             return View(prod);
         }
-
-        public IActionResult ComprarConfirmed(string id, int prodid)
+        [HttpPost]
+        public IActionResult ComprarConfirmed(string userid, int prodid)
         {
-            var user = _userStore.FindById(id);
-            if (user == null) return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
             var prods = _productStore.GetAllProducts();
             var prod = prods.FirstOrDefault(p => p.Id == prodid);
-            return View(prod);
+            var existingOrder = _orderStore.GetOrdersByUser(userid)
+                               .FirstOrDefault(o => o.Createdat.Date == DateTime.Today);
+
+            if (existingOrder == null)
+            {
+                existingOrder = new Order
+                {
+                    Id = _orderStore.GetNextOrderId(),
+                    Userid = userid,
+                    Total = 0,
+                    Createdat = DateTime.Now
+                };
+                _orderStore.AddOrder(existingOrder);
+            }
+
+            var orderItem = new OrderItem
+            {
+                Id = _orderStore.GetNextOrderItemId(),
+                Orderid = existingOrder.Id,
+                Productid = prodid,
+                Quantity = 1,
+                Unitprice = 0
+            };
+            _orderStore.AddOrderItem(orderItem);
+            return RedirectToAction("Bar", new { id = userid });
         }
     }
 }
