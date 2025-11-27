@@ -15,6 +15,38 @@
       "Allergens": "asdasd",
       "Stock": 12,
       "IsActive": false
+    },
+    {
+      "ImagePath": "coordinator.jpg",
+      "Id": 4,
+      "Name": "salmaoz",
+      "Description": "meow",
+      "Price": 12,
+      "CategoryId": 2,
+      "Kcal": 12,
+      "Protein": 12,
+      "Fat": 12,
+      "Carbs": 1212,
+      "Salt": 12,
+      "Allergens": "Queijo",
+      "Stock": 12,
+      "IsActive": true
+    },
+    {
+      "ImagePath": "",
+      "Id": 5,
+      "Name": "adwsdawsd",
+      "Description": null,
+      "Price": 14,
+      "CategoryId": 2,
+      "Kcal": 12,
+      "Protein": 121,
+      "Fat": 21212,
+      "Carbs": 1212,
+      "Salt": 12,
+      "Allergens": "meow",
+      "Stock": 43,
+      "IsActive": false
     }
   ]
 }

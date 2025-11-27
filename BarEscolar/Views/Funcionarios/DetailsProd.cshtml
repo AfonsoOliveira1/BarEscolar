@@ -25,7 +25,7 @@
     @{
         List<Category> categories = ViewBag.Categories;
         var category = categories?.FirstOrDefault(c => c.Id == Model.CategoryId);
-        @category?.Name;
+        @category?.Name
     }
 </p>
 <p><strong>Kcal:</strong>@Model.Kcal</p>

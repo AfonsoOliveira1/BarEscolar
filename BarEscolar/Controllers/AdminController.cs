@@ -45,6 +45,7 @@ namespace BarEscolar.Controllers
             ViewBag.Weeks = _menuStore.GetAllWeeks();
             ViewBag.Products = _productStore.GetAllProducts();
             ViewBag.Categories = _categoryStore.GetAll();
+            ViewBag.User = user;
             return View();
         }
 
@@ -133,10 +134,42 @@ namespace BarEscolar.Controllers
         }
 
         // ---------------- PRODUCT CRUD ----------------
-        public IActionResult Products()
+        public IActionResult Products(string id)
         {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            ViewBag.Categories = _categoryStore.GetAll();
             var products = _productStore.GetAllProducts();
             return View(products);
+        }
+        public IActionResult LoadProducts(string id, string category = "", string price = "", string allergen = "")
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var prod = _productStore.GetAllProducts().AsEnumerable();
+
+            // Filtro categoria
+            if (!string.IsNullOrEmpty(category))
+            {
+                var cat = _categoryStore.GetAll().FirstOrDefault(c => c.Name == category);
+                if (cat != null)
+                    prod = prod.Where(p => p.CategoryId == cat.Id);
+            }
+            // Filtro alergénio
+            if (!string.IsNullOrEmpty(allergen))
+                prod = prod.Where(p => !string.IsNullOrEmpty(p.Allergens) && p.Allergens.Contains(allergen, StringComparison.OrdinalIgnoreCase));
+
+            // Filtro preço
+            if (price == "low")
+                prod = prod.OrderBy(p => p.Price);
+            else if (price == "high")
+                prod = prod.OrderByDescending(p => p.Price);
+
+            ViewBag.Categories = _categoryStore.GetAll();
+
+            return PartialView("_ProductList", prod);
         }
 
         public IActionResult CreateProduct()

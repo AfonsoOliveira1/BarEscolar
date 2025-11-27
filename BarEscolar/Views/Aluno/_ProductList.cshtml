@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BarEscolar.Models.Product>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Stock</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Detalhes</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var prod in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(prod.ImagePath))
+                {
+                    <center>
+                        <img src="/Images/@prod.ImagePath" style="width:70px" />
+                    </center>
+                }
+                else
+                {
+                    <span>Sem Imagem</span>
+                }
+            </td>
+            <td>@prod.Name</td>
+            <td>@prod.Price</td>
+            <td>@prod.Stock</td>
+            <td>@prod.Description</td>
+                <td>
+                    @{
+                        List<Category> categories = ViewBag.Categories;
+                        var category = categories?.FirstOrDefault(c => c.Id == prod.CategoryId);
+                        @category?.Name
+                    }
+                </td>
+            <td>
+                <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a>
+            </td>
+            <td>
+                @if (prod.Stock == 0)
+                {
+                    <button class="btn btn-secondary btn-sm" disabled>Sem Stock</button>
+                }
+                else
+                {
+                    <a asp-action="Comprar"
+                        asp-route-id="@ViewBag.User.ID"
+                        asp-route-prodid="@prod.Id"
+                        class="btn btn-success btn-sm">
+                        Comprar
+                    </a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
