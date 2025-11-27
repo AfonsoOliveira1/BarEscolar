@@ -2,14 +2,10 @@
 
 @{
     ViewData["Title"] = "Aluno";
+    var selectedOption = ViewBag.SelectedOption ?? "A";
 }
 
 <h1>Bem-vindo, @ViewBag.User.FullName!</h1>
-
-<p>
-    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="A">Não-Vegan</a> |
-    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="B">Vegan</a>
-</p>
 
 <a asp-action="Historico" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">Historico</a>
 <a asp-action="MenusMarcados" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">Menus Marcado</a>
@@ -17,6 +13,13 @@
 
 
 <h2>Menus da Semana</h2>
+
+<div>
+    <div>
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="A">Não-Vegan</a>
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="B">Vegan</a>
+    </div>
+</div>
 
 @foreach (var week in Model)
 {
@@ -70,3 +73,21 @@
         </table>
     </div>
 }
+<script>
+    const s = document.getElementById("select");
+
+    s.addEventListener("change", function () {
+
+        const option = this.value;
+        const userId = "@ViewBag.User.ID";
+
+        console.log("SELECT MUDOU PARA:", option);
+        console.log("USER ID:", userId);
+
+        // Testa primeiro no console
+        const url = "/Aluno/Index/" + userId + "?option=" + option;
+        console.log("URL:", url);
+
+        window.location.href = url;
+    });
+</script>

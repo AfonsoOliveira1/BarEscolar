@@ -227,8 +227,27 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public IActionResult CreateCategory(Category category, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if (filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    category.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             category.Id = _categoryStore.GetAll().Any() ? _categoryStore.GetAll().Max(c => c.Id) + 1 : 1;
             _categoryStore.Add(category);
             return RedirectToAction("Categories");
@@ -242,8 +261,27 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCategory(Category category)
+        public IActionResult EditCategory(Category category, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if (filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    category.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             _categoryStore.Update(category);
             return RedirectToAction("Categories");
         }

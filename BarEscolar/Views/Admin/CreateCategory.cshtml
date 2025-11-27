@@ -2,7 +2,13 @@
 
 <h2>Nova Categoria</h2>
 
-<form asp-action="CreateCategory" method="post">
+<form asp-action="CreateCategory" method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label>Imagem</label>
+        <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
+    </div>
+
     <div class="form-group">
         <label>Nome</label>
         <input asp-for="Name" class="form-control" required />

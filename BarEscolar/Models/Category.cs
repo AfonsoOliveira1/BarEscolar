@@ -5,6 +5,7 @@ namespace BarEscolar.Models
     public class Category
     {
         public int Id { get; set; }
+        public string ImagePath { get; set; } = "Sem Imagem";
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public bool IsActive { get; set; }

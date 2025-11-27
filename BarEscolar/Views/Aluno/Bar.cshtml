@@ -5,75 +5,94 @@
 }
 
 <h1>Bar Escolar — @ViewBag.User.FullName</h1>
+<div>
+    <form asp-action="Bar" asp-route-id="@ViewBag.User.ID" asp-route-price="@ViewBag.SelectedPrice" method="get" id="catFilter">
+        <select name="category" onchange="changed()">
+            <option value="">Filtrar Categoria</option>
+            @foreach (Category category in ViewBag.Categories)
+            {
+                <option value="@category.Name">@category.Name</option>
+            }
+        </select>
+    </form>
+</div>
+<div>
+    <select name="price" id="priceFilter" onchange="changed()">
+        <option value="">Filtrar Preço</option>
+        <option value="low">Menor para Maior</option>
+        <option value="high">Maior para Menor</option>
+    </select>
+</div>
+<div>
+    <input type="text" id="allergenFilter" placeholder="Filtrar por Alergénios" />
+</div>
 
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Stock</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Detalhes</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(prod.ImagePath))
+                    {
+                        <center>
+                            <img src="/Images/@prod.ImagePath" style="width:70px" />
+                        </center>
+                    }
+                    else
+                    {
+                        <span>Sem Imagem</span>
+                    }
+                </td>
+                <td>@prod.Name</td>
+                <td>@prod.Price</td>
+                <td>@prod.Stock</td>
+                <td>@prod.Description</td>
+                <td>@{
+                        List<Category> categorys = ViewBag.Categories;
+                        var category = categorys?.FirstOrDefault(c => c.Id == prod.CategoryId);
+                        @category?.Name;
+                    }
+                </td>
+                <td>
+                    <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a>
+                </td>
+                <td>
+                    @if (prod.Stock == 0)
+                    {
+                        <button class="btn btn-secondary btn-sm" disabled>Sem Stock</button>
+                    }
+                    else
+                    {
+                        <a asp-action="Comprar"
+                            asp-route-id="@ViewBag.User.ID"
+                            asp-route-menuId="@prod.Id"
+                            class="btn btn-success btn-sm">Comprar
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">
     Voltar aos Menus
 </a>
-
-@if (!Model.Any())
-{
-    <p>Não existem Produtos no Bar da Escola.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Imagem</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Stock</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Detalhes</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var prod in Model)
-            {
-                <tr>
-                    <td>
-                        @if (!string.IsNullOrEmpty(prod.ImagePath))
-                        {
-                            <center>
-                                <img src="/Images/@prod.ImagePath" style="width:70px" />
-                            </center>
-                        }
-                        else
-                        {
-                            <span>Sem Imagem</span>
-                        }
-                    </td>
-                    <td>@prod.Name</td>
-                    <td>@prod.Price</td>
-                    <td>@prod.Stock</td>
-                    <td>@prod.Description</td>
-                    <td>@{
-                            List<Category> categorys = ViewBag.Categorys;
-                            var category = categorys?.FirstOrDefault(c => c.Id == prod.CategoryId);
-                            @category?.Name;
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a>
-                    </td>
-                    <td>
-                        @if (prod.Stock == 0)
-                        {
-                            <button class="btn btn-secondary btn-sm" disabled>Sem Stock</button>
-                        }
-                        else
-                        {
-                            <a asp-action="Comprar"
-                               asp-route-id="@ViewBag.User.ID"
-                               asp-route-menuId="@prod.Id"
-                               class="btn btn-success btn-sm">Comprar
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<script>
+    // Mantém a categoria selecionada ao carregar a página
+    function changed(){
+        document.getElementById("catFilter").submit();
+    }
+</script>

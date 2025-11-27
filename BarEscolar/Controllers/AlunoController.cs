@@ -66,6 +66,8 @@ namespace BarEscolar.Controllers
             ViewBag.RemainingSeats = userOrderItems
                                      .GroupBy(oi => oi.Productid)
                                      .ToDictionary(g => g.Key, g => g.Count());
+            ViewBag.SelectedOption = option;
+            ViewBag.Categories = _categoryStore.GetAll();
 
             return View(weeks);
         }
@@ -205,7 +207,7 @@ namespace BarEscolar.Controllers
         }
 
         // ----------------- Bar da Escola -----------------
-        public IActionResult Bar(string id)
+        public IActionResult Bar(string id, string category = "", string price = "")
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound("Usuário não encontrado.");
@@ -220,12 +222,26 @@ namespace BarEscolar.Controllers
             ViewBag.RemainingStocks = userOrderItems
                                      .GroupBy(oi => oi.Productid)
                                      .ToDictionary(g => g.Key, g => g.Count());
-            ViewBag.Categorys = _categoryStore.GetAll();
+            ViewBag.Categories = _categoryStore.GetAll();
 
+            ViewBag.SelectedCategory = category;
+            ViewBag.SelectedPrice = price;
             var prod = _productStore.GetAllProducts();
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                var cat = _categoryStore.GetAll().FirstOrDefault(c => c.Name == category);
+                var filteredProds = _productStore.GetAllProducts()
+                                    .Where(p => p.CategoryId == cat?.Id)
+                                    .ToList();
+                prod = filteredProds;
+            }
+            if(price == "low")
+                prod.OrderBy(p => p.Price);
+            else if(price == "high")
+                prod.OrderByDescending(p => p.Price);
             return View(prod);
         }
-
         // ----------------- Details Produto -----------------
         public IActionResult DetailsProd(string id, int prodid)
         {

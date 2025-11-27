@@ -1,23 +1,7 @@
 {
   "Products": [
     {
-      "ImagePath": "",
-      "Id": 4,
-      "Name": "afdawsdfwd",
-      "Description": null,
-      "Price": 12,
-      "CategoryId": 1,
-      "Kcal": 12,
-      "Protein": 12,
-      "Fat": 12,
-      "Carbs": 12,
-      "Salt": 12,
-      "Allergens": "adwsd",
-      "Stock": 342,
-      "IsActive": true
-    },
-    {
-      "ImagePath": "PSI-M18-Exerc03_2526.pdf",
+      "ImagePath": "JSON.png",
       "Id": 3,
       "Name": "awsd",
       "Description": "asdwawsd",

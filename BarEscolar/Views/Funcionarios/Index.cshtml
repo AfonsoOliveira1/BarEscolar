@@ -3,10 +3,6 @@
     ViewData["Title"] = "Funcionario";
     List<Category> categories = ViewBag.Categories;
 }
-
-<p>Não existem Produtos no Bar da Escola.</p>
-<a class="btn btn-success mb-3" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
-
 <h1>Bem-vindo, @ViewBag.User.FullName!</h1>
 <h2>Produtos do Bar</h2>
 <a class="btn btn-success mb-3" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
@@ -68,7 +64,7 @@
 <table class="table mt-3">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Imagem</th>
             <th>Nome</th>
             <th></th>
         </tr>
@@ -77,7 +73,18 @@
         @foreach (var c in categories)
         {
             <tr>
-                <td>@c.Id</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(c.ImagePath))
+                    {
+                        <center>
+                            <img src="/Images/@c.ImagePath" style="width:70px" />
+                        </center>
+                    }
+                    else
+                    {
+                        <span>Sem Imagem</span>
+                    }
+                </td>
                 <td>@c.Name</td>
                 <td>
                     <a asp-action="EditCat" asp-route-id="@ViewBag.User.ID" asp-route-catid="@c.Id" class="btn btn-sm btn-warning">Editar</a>
