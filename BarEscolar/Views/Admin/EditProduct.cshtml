@@ -7,7 +7,7 @@
 
 <h2>Editar Produto</h2>
 
-<form asp-action="EditProduct" method="post">
+<form asp-action="EditProduct" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
 
     <div class="mb-3">
@@ -74,6 +74,11 @@
     </div>
 
     <div class="mb-3">
+        <label>Imagem</label>
+        <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
+    </div>
+
+    <div class="mb-3">
         <label>Ativo?</label>
         <input asp-for="IsActive" type="checkbox" />
     </div>
@@ -81,3 +86,4 @@
     <button class="btn btn-primary">Guardar</button>
     <a asp-action="Products" class="btn btn-secondary">Cancelar</a>
 </form>
+<script src="/js/site.js"></script>

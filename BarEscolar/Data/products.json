@@ -1,23 +1,7 @@
 {
   "Products": [
     {
-      "Imagepath": "",
-      "Id": 3,
-      "Name": "awsd",
-      "Description": "asdwawsd",
-      "Price": 12,
-      "CategoryId": 1,
-      "Kcal": 12,
-      "Protein": 12,
-      "Fat": 12,
-      "Carbs": 121,
-      "Salt": 212,
-      "Allergens": "asdasd",
-      "Stock": 12,
-      "IsActive": false
-    },
-    {
-      "Imagepath": "",
+      "ImagePath": "",
       "Id": 4,
       "Name": "afdawsdfwd",
       "Description": null,
@@ -31,6 +15,22 @@
       "Allergens": "adwsd",
       "Stock": 342,
       "IsActive": true
+    },
+    {
+      "ImagePath": "PSI-M18-Exerc03_2526.pdf",
+      "Id": 3,
+      "Name": "awsd",
+      "Description": "asdwawsd",
+      "Price": 12,
+      "CategoryId": 1,
+      "Kcal": 12,
+      "Protein": 12,
+      "Fat": 12,
+      "Carbs": 121,
+      "Salt": 212,
+      "Allergens": "asdasd",
+      "Stock": 12,
+      "IsActive": false
     }
   ]
 }

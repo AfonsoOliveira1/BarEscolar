@@ -33,7 +33,18 @@ else
             @foreach (var prod in Model)
             {
                 <tr>
-                    <td>@prod.Imagepath</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(prod.ImagePath))
+                        {
+                            <center>
+                                <img src="/Images/@prod.ImagePath" style="width:70px" />
+                            </center>
+                        }
+                        else
+                        {
+                            <span>Sem Imagem</span>
+                        }
+                    </td>
                     <td>@prod.Name</td>
                     <td>@prod.Price</td>
                     <td>@prod.Stock</td>

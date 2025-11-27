@@ -2,7 +2,7 @@
 
 <h2>Editar Produto</h2>
 
-<form asp-action="EditProd" method="post">
+<form asp-action="EditProd" method="post" enctype="multipart/form-data">
     <input type="hidden" name="UserId" value="@ViewBag.User.ID" />
     <input type="hidden" name="Id" value="@Model.Id" />
 
@@ -16,6 +16,11 @@
 
         <label asp-for="Stock"></label>
         <input asp-for="Stock" class="form-control" />
+
+        <div class="mb-3">
+            <label>Imagem</label>
+            <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
+        </div>
 
         <label asp-for="Description"></label>
         <input asp-for="Description" class="form-control" />

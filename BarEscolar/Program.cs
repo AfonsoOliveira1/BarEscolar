@@ -1,6 +1,7 @@
 using BarEscolar.Data;
 using BarEscolar.Models;
 using BarEscolar.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,6 +122,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+    Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images")),
+    RequestPath = "/Images"
+});
 
 app.UseRouting();
 app.UseAuthorization();

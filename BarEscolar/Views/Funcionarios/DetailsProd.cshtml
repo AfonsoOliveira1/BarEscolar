@@ -4,6 +4,18 @@
 }
 <h1>Detalhes do Produto</h1>
 
+<p>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <center>
+            <img src="/Images/@Model.ImagePath" style="width:70px" />
+        </center>
+    }
+    else
+    {
+        <span>Sem Imagem</span>
+    }
+</p>
 <p><strong>Nome:</strong> @Model.Name</p>
 <p><strong>Descrição:</strong> @Model.Description</p>
 <p><strong>Preço:</strong> @Model.Price</p>

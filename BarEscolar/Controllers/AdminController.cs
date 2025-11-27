@@ -146,8 +146,27 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(Product product)
+        public IActionResult CreateProduct(Product product, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if(filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    product.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             product.Id = _productStore.GetNextProductId();
             _productStore.Add(product);
             return RedirectToAction("Products");
@@ -163,8 +182,27 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(Product product)
+        public IActionResult EditProduct(Product product, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if (filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    product.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             _productStore.Update(product);
             return RedirectToAction("Products");
         }

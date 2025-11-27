@@ -73,8 +73,27 @@ namespace BarEscolar.Controllers
             return View(produto);
         }
         [HttpPost]
-        public IActionResult EditProd(string userId, Product model)
+        public IActionResult EditProd(string userId, Product model, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if (filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    model.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             var produto = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == model.Id);
 
             if (produto == null)
@@ -102,8 +121,27 @@ namespace BarEscolar.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateProd(string userId, Product model)
+        public IActionResult CreateProd(string userId, Product model, IFormFile imageFile)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, imageFile.FileName);
+                if (filePath.EndsWith(".png") || filePath.EndsWith(".jpg") || filePath.EndsWith(".gif")
+                    || filePath.EndsWith("jpeg"))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                    model.ImagePath = imageFile.FileName;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
             model.Id = _productStore.GetNextProductId();
             _productStore.Add(model);
             return RedirectToAction("Index", new { ID = userId });

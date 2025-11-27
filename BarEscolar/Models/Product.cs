@@ -3,7 +3,7 @@
     public class Product
     {
         private double _price;
-        public string Imagepath { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

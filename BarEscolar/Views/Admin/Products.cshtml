@@ -11,6 +11,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Imagem</th>
             <th>Nome</th>
             <th>Preço</th>
             <th>Categoria</th>
@@ -24,6 +25,18 @@
         @foreach (var p in Model)
         {
             <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(p.ImagePath))
+                    {
+                        <center>
+                            <img src="/Images/@p.ImagePath" style="width:70px" />
+                        </center>
+                    }
+                    else
+                    {
+                        <span>Sem Imagem</span>
+                    }
+                </td>
                 <td>@p.Name</td>
                 <td>@p.Price €</td>
                 <td>@p.CategoryId</td>
