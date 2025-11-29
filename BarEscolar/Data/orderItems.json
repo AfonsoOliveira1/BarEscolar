@@ -2,33 +2,51 @@
   {
     "Id": 1,
     "Orderid": 1,
-    "Productid": 5,
+    "Productid": 3,
+    "IsMenu": false,
     "Quantity": 1,
-    "Unitprice": 0,
-    "Subtotal": 0
+    "CreatedAt": "0001-01-01T00:00:00",
+    "Unitprice": 12,
+    "Subtotal": 12
   },
   {
     "Id": 2,
-    "Orderid": 2,
-    "Productid": 5,
+    "Orderid": 1,
+    "Productid": 1,
+    "IsMenu": true,
     "Quantity": 1,
+    "CreatedAt": "0001-01-01T00:00:00",
     "Unitprice": 0,
     "Subtotal": 0
   },
   {
     "Id": 3,
-    "Orderid": 2,
+    "Orderid": 1,
     "Productid": 3,
+    "IsMenu": true,
     "Quantity": 1,
+    "CreatedAt": "0001-01-01T00:00:00",
     "Unitprice": 0,
     "Subtotal": 0
   },
   {
     "Id": 4,
-    "Orderid": 3,
-    "Productid": 11,
-    "Quantity": 1,
+    "Orderid": 1,
+    "Productid": 2,
+    "IsMenu": true,
+    "Quantity": 0,
+    "CreatedAt": "0001-01-01T00:00:00",
     "Unitprice": 0,
     "Subtotal": 0
+  },
+  {
+    "Id": 5,
+    "Orderid": 1,
+    "Productid": 4,
+    "IsMenu": false,
+    "Quantity": 1,
+    "CreatedAt": "0001-01-01T00:00:00",
+    "Unitprice": 12,
+    "Subtotal": 12
   }
 ]

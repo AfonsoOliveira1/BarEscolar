@@ -2,9 +2,7 @@
 using BarEscolar.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Linq;
-using System.Numerics;
 
 namespace BarEscolar.Controllers
 {
@@ -17,7 +15,13 @@ namespace BarEscolar.Controllers
         private readonly JsonCategoryStore _categoryStore;
         private readonly Authentication _auth;
 
-        public AlunoController(JsonUserStore userStore, JsonMenuStore menuStore, JsonOrderStore orderStore, JsonProductStore productStore, JsonCategoryStore categoryStore, Authentication authentication)
+        public AlunoController(
+            JsonUserStore userStore,
+            JsonMenuStore menuStore,
+            JsonOrderStore orderStore,
+            JsonProductStore productStore,
+            JsonCategoryStore categoryStore,
+            Authentication authentication)
         {
             _userStore = userStore;
             _menuStore = menuStore;
@@ -56,35 +60,37 @@ namespace BarEscolar.Controllers
                 .Where(w => w.menuDays.Any())
                 .ToList();
 
-            // User's marked menus
-            var userOrderItems = _orderStore.GetOrdersByUser(id)
-                                            .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
-                                            .ToList();
+            // IDs de menus marcados
+            var userMenuItems = _orderStore.GetOrdersByUser(id)
+                                .SelectMany(o => o.OrderItems)
+                                .Where(oi => oi.IsMenu && oi.Quantity > 0)
+                                .ToList();
 
-            ViewBag.MarkedMenuIds = userOrderItems.Select(oi => oi.Productid).ToList();
+            ViewBag.MarkedMenuIds = userMenuItems.Select(oi => oi.Productid).ToList();
 
-            ViewBag.RemainingSeats = userOrderItems
+
+            // Lugares restantes
+            ViewBag.RemainingSeats = userMenuItems
                                      .GroupBy(oi => oi.Productid)
                                      .ToDictionary(g => g.Key, g => g.Count());
+
             ViewBag.SelectedOption = option;
             ViewBag.Categories = _categoryStore.GetAll();
 
             return View(weeks);
         }
 
-        // ----------------- Menus Marcados (Current week) -----------------
+        // ----------------- Menus Marcados -----------------
         public IActionResult MenusMarcados(string id)
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound("Usuário não encontrado.");
 
-            // Flatten all order items of the user
             var orderItems = _orderStore.GetOrdersByUser(id)
-                                        .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
-                                        .Where(oi => oi.Quantity > 0) // ignore canceled items
+                                        .SelectMany(o => o.OrderItems)
+                                        .Where(oi => oi.IsMenu && oi.Quantity > 0)
                                         .ToList();
 
-            // Get all menus for display
             var allMenus = _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).ToList();
 
             ViewBag.User = user;
@@ -94,21 +100,21 @@ namespace BarEscolar.Controllers
         }
 
 
-        // ----------------- Histórico completo -----------------
+        // ----------------- Histórico -----------------
         public IActionResult Historico(string id)
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound("Usuário não encontrado.");
 
-            var allMenus = _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).ToList();
+            var orders = _orderStore.GetOrdersByUser(id);
+            var allItems = orders.SelectMany(o => o.OrderItems).ToList();
+
             ViewBag.User = user;
-            ViewBag.AllMenus = allMenus;
+            ViewBag.AllOrders = orders;
+            ViewBag.AllMenus = _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).ToList();
+            ViewBag.AllProducts = _productStore.GetAllProducts();
 
-            var orderItems = _orderStore.GetOrdersByUser(id)
-                                        .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
-                                        .ToList();
-
-            return View(orderItems);
+            return View(allItems);
         }
 
         // ----------------- Marcar Menu -----------------
@@ -120,42 +126,55 @@ namespace BarEscolar.Controllers
             var menu = _menuStore.GetAllWeeks()
                                  .SelectMany(w => w.menuDays)
                                  .FirstOrDefault(m => m.Id == menuId);
+
             if (menu == null) return NotFound("Menu não encontrado.");
 
             ViewBag.User = user;
-            return View(menu);
+            return View(menu); 
         }
 
+        [HttpPost]
         public IActionResult MarcarConfirmed(string id, int menuId)
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound("Usuário não encontrado.");
 
-            var allMenus = _menuStore.GetAllWeeks();
-            var menu = allMenus.SelectMany(w => w.menuDays)
-                               .FirstOrDefault(m => m.Id == menuId);
+            var menu = _menuStore.GetAllWeeks()
+                                 .SelectMany(w => w.menuDays)
+                                 .FirstOrDefault(m => m.Id == menuId);
             if (menu == null) return NotFound("Menu não encontrado.");
 
-            // Check if user already marked a menu for this day
-            var userOrderItems = _orderStore.GetOrdersByUser(id)
-                                            .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
-                                            .ToList();
+            // Pega todos os menus marcados do usuário para o mesmo dia
+            var userMenuItems = _orderStore.GetOrdersByUser(id)
+                                           .SelectMany(o => o.OrderItems)
+                                           .Where(oi => oi.IsMenu && oi.Quantity > 0)
+                                           .ToList();
 
-            var alreadyMarkedForDay = userOrderItems
-                                      .Select(oi => allMenus.SelectMany(w => w.menuDays)
-                                                             .FirstOrDefault(m => m.Id == oi.Productid))
-                                      .Any(m => m != null && m.Date.Date == menu.Date.Date);
+            var menusSameDay = userMenuItems
+                               .Select(oi => _menuStore.GetAllWeeks()
+                                                       .SelectMany(w => w.menuDays)
+                                                       .FirstOrDefault(m => m.Id == oi.Productid))
+                               .Where(m => m != null && m.Date.Date == menu.Date.Date)
+                               .ToList();
 
-            if (alreadyMarkedForDay)
-                return BadRequest("Você já marcou uma refeição para este dia.");
+            if (menusSameDay.Any())
+            {
+                // Verifica se o tipo é diferente
+                if (menusSameDay.Any(m => m.option != menu.option))
+                {
+                    return BadRequest("Não é possível marcar menus vegan e não-vegan no mesmo dia.");
+                }
 
-            // Check cutoff time (10:00 today)
+                return BadRequest("Você já marcou um menu para este dia.");
+            }
+
+            // Checagem de horário (até 10:00)
             if (menu.Date.Date == DateTime.Today && DateTime.Now.TimeOfDay > new TimeSpan(10, 0, 0))
                 return BadRequest("A marcação só é permitida até às 10:00 do dia.");
 
-            // Create or get today's order
+            // Criar ou obter order do dia — type Menu
             var existingOrder = _orderStore.GetOrdersByUser(id)
-                                           .FirstOrDefault(o => o.Createdat.Date == DateTime.Today);
+                                           .FirstOrDefault(o => o.Createdat.Date == DateTime.Today && o.Type == "Menu");
 
             if (existingOrder == null)
             {
@@ -163,24 +182,18 @@ namespace BarEscolar.Controllers
                 {
                     Id = _orderStore.GetNextOrderId(),
                     Userid = user.ID,
+                    Createdat = DateTime.Now,
                     Total = 0,
-                    Createdat = DateTime.Now
+                    Type = "Menu"
                 };
                 _orderStore.AddOrder(existingOrder);
             }
 
-            var orderItem = new OrderItem
-            {
-                Id = _orderStore.GetNextOrderItemId(),
-                Orderid = existingOrder.Id,
-                Productid = menu.Id,
-                Quantity = 1,
-                Unitprice = 0
-            };
-            _orderStore.AddOrderItem(orderItem);
+            _orderStore.MarkMenu(id, menuId);
 
             return RedirectToAction("Index", new { id = user.ID });
         }
+
 
         // ----------------- Cancelar Marcação -----------------
         [HttpPost]
@@ -196,11 +209,9 @@ namespace BarEscolar.Controllers
                                  .SelectMany(w => w.menuDays)
                                  .FirstOrDefault(m => m.Id == orderItem.Productid);
 
-            // Check cutoff time (09:30 today)
             if (menu != null && menu.Date.Date == DateTime.Today && DateTime.Now.TimeOfDay > new TimeSpan(9, 30, 0))
                 return BadRequest("O cancelamento só é permitido até às 09:30 do dia.");
 
-            // Mark the item as canceled instead of removing
             orderItem.Quantity = 0;
 
             return RedirectToAction("MenusMarcados", new { id });
@@ -214,8 +225,9 @@ namespace BarEscolar.Controllers
             ViewBag.User = user;
 
             var userOrderItems = _orderStore.GetOrdersByUser(id)
-                                .SelectMany(o => _orderStore.GetOrderItemsByOrder(o.Id))
-                                .ToList();
+                                            .Where(o => o.Type == "Produto")
+                                            .SelectMany(o => o.OrderItems)
+                                            .ToList();
 
             ViewBag.MarkedMenuIds = userOrderItems.Select(oi => oi.Productid).ToList();
 
@@ -226,64 +238,28 @@ namespace BarEscolar.Controllers
             var prod = _productStore.GetAllProducts().AsEnumerable();
             return View(prod);
         }
-        public IActionResult LoadProducts(string id, string category = "", string price = "", string allergen = "")
-        {
-            var user = _userStore.FindById(id);
-            if (user == null) return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
-            var prod = _productStore.GetAllProducts().AsEnumerable();
 
-            // Filtro categoria
-            if (!string.IsNullOrEmpty(category))
-            {
-                var cat = _categoryStore.GetAll().FirstOrDefault(c => c.Name == category);
-                if (cat != null)
-                    prod = prod.Where(p => p.CategoryId == cat.Id);
-            }
-            // Filtro alergénio
-            if (!string.IsNullOrEmpty(allergen))
-                prod = prod.Where(p => !string.IsNullOrEmpty(p.Allergens) && p.Allergens.Contains(allergen, StringComparison.OrdinalIgnoreCase));
-            
-            // Filtro preço
-            if (price == "low")
-                prod = prod.OrderBy(p => p.Price);
-            else if (price == "high")
-                prod = prod.OrderByDescending(p => p.Price);
-
-            ViewBag.Categories = _categoryStore.GetAll();
-
-            return PartialView("_ProductList", prod);
-        }
-        // ----------------- Details Produto -----------------
-        public IActionResult DetailsProd(string id, int prodid)
-        {
-            var user = _userStore.FindById(id);
-            if (user == null) return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
-            var prods = _productStore.GetAllProducts();
-            var prod = prods.FirstOrDefault(p => p.Id == prodid);
-            ViewBag.Categorys = _categoryStore.GetAll();
-            return View(prod);
-        }
-
-        // ----------------- Comprar Menu -----------------
         public IActionResult Comprar(string id, int prodid)
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound("Usuário não encontrado.");
             ViewBag.User = user;
-            var prods = _productStore.GetAllProducts();
-            var prod = prods.FirstOrDefault(p => p.Id == prodid);
+
+            var prod = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
             ViewBag.Categorys = _categoryStore.GetAll();
             return View(prod);
         }
+
         [HttpPost]
         public IActionResult ComprarConfirmed(string userid, int prodid)
         {
-            var prods = _productStore.GetAllProducts();
-            var prod = prods.FirstOrDefault(p => p.Id == prodid);
+            var product = _productStore.FindById(prodid);
+            if (product == null || product.Stock <= 0)
+                return BadRequest("Produto indisponível.");
+
+            // Obter order do dia apenas do tipo Produto
             var existingOrder = _orderStore.GetOrdersByUser(userid)
-                               .FirstOrDefault(o => o.Createdat.Date == DateTime.Today);
+                                           .FirstOrDefault(o => o.Createdat.Date == DateTime.Today && o.Type == "Produto");
 
             if (existingOrder == null)
             {
@@ -292,7 +268,8 @@ namespace BarEscolar.Controllers
                     Id = _orderStore.GetNextOrderId(),
                     Userid = userid,
                     Total = 0,
-                    Createdat = DateTime.Now
+                    Createdat = DateTime.Now,
+                    Type = "Produto"
                 };
                 _orderStore.AddOrder(existingOrder);
             }
@@ -303,9 +280,14 @@ namespace BarEscolar.Controllers
                 Orderid = existingOrder.Id,
                 Productid = prodid,
                 Quantity = 1,
-                Unitprice = 0
+                Unitprice = product.Price,
+                Subtotal = product.Price
             };
             _orderStore.AddOrderItem(orderItem);
+
+            product.Stock -= 1;
+            _productStore.Update(product);
+
             return RedirectToAction("Bar", new { id = userid });
         }
     }

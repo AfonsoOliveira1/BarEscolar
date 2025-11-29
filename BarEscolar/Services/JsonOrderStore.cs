@@ -22,6 +22,7 @@ namespace BarEscolar.Services
         }
 
         // ---------------- LOAD / SAVE ----------------
+
         private List<Order> LoadOrders()
         {
             if (!File.Exists(_ordersFile)) return new List<Order>();
@@ -36,23 +37,28 @@ namespace BarEscolar.Services
             return JsonSerializer.Deserialize<List<OrderItem>>(json) ?? new List<OrderItem>();
         }
 
-        private void SaveOrders() => File.WriteAllText(_ordersFile, JsonSerializer.Serialize(_orders, new JsonSerializerOptions { WriteIndented = true }));
-        private void SaveOrderItems() => File.WriteAllText(_orderItemsFile, JsonSerializer.Serialize(_orderItems, new JsonSerializerOptions { WriteIndented = true }));
+        private void SaveOrders() =>
+            File.WriteAllText(_ordersFile, JsonSerializer.Serialize(_orders, new JsonSerializerOptions { WriteIndented = true }));
+
+        private void SaveOrderItems() =>
+            File.WriteAllText(_orderItemsFile, JsonSerializer.Serialize(_orderItems, new JsonSerializerOptions { WriteIndented = true }));
 
         // ---------------- ORDERS ----------------
+
         public List<Order> GetOrders() => _orders;
 
         public List<Order> GetOrdersByUser(string userId)
         {
-            var userOrders = _orders.Where(o => o.Userid == userId).ToList();
-            foreach (var order in userOrders)
-            {
+            var orders = _orders.Where(o => o.Userid == userId).ToList();
+
+            foreach (var order in orders)
                 order.OrderItems = _orderItems.Where(oi => oi.Orderid == order.Id).ToList();
-            }
-            return userOrders;
+
+            return orders;
         }
 
-        public Order GetOrderById(int orderId) => _orders.FirstOrDefault(o => o.Id == orderId);
+        public Order GetOrderById(int orderId) =>
+            _orders.FirstOrDefault(o => o.Id == orderId);
 
         public void AddOrder(Order order)
         {
@@ -65,28 +71,26 @@ namespace BarEscolar.Services
             var order = GetOrderById(orderId);
             if (order != null)
             {
-                // Remove associated order items
                 _orderItems.RemoveAll(oi => oi.Orderid == orderId);
                 _orders.Remove(order);
+
                 SaveOrders();
                 SaveOrderItems();
             }
         }
 
-        public int GetNextOrderId() => _orders.Any() ? _orders.Max(o => o.Id) + 1 : 1;
+        public int GetNextOrderId() =>
+            _orders.Any() ? _orders.Max(o => o.Id) + 1 : 1;
 
         // ---------------- ORDER ITEMS ----------------
+
         public List<OrderItem> GetOrderItems() => _orderItems;
 
-        public List<OrderItem> GetOrderItemsByUser(string userId)
-        {
-            var userOrders = GetOrdersByUser(userId).Select(o => o.Id).ToList();
-            return _orderItems.Where(oi => userOrders.Contains(oi.Orderid)).ToList();
-        }
+        public List<OrderItem> GetOrderItemsByOrder(int orderId) =>
+            _orderItems.Where(oi => oi.Orderid == orderId).ToList();
 
-        public List<OrderItem> GetOrderItemsByOrder(int orderId) => _orderItems.Where(oi => oi.Orderid == orderId).ToList();
-
-        public OrderItem GetOrderItemById(int orderItemId) => _orderItems.FirstOrDefault(oi => oi.Id == orderItemId);
+        public OrderItem GetOrderItemById(int id) =>
+            _orderItems.FirstOrDefault(oi => oi.Id == id);
 
         public void AddOrderItem(OrderItem item)
         {
@@ -101,7 +105,7 @@ namespace BarEscolar.Services
             {
                 _orderItems.Remove(item);
 
-                // Remove order if empty
+                // Remove order se não tiver items
                 var order = GetOrderById(item.Orderid);
                 if (order != null && !_orderItems.Any(oi => oi.Orderid == order.Id))
                     _orders.Remove(order);
@@ -111,13 +115,19 @@ namespace BarEscolar.Services
             }
         }
 
-        public int GetNextOrderItemId() => _orderItems.Any() ? _orderItems.Max(oi => oi.Id) + 1 : 1;
+        public int GetNextOrderItemId() =>
+            _orderItems.Any() ? _orderItems.Max(oi => oi.Id) + 1 : 1;
 
-        // ---------------- HELPER METHODS ----------------
+        // ---------------- MARCAR MENU ----------------
+
         public void MarkMenu(string userId, int menuId)
         {
             var today = DateTime.Today;
-            var order = _orders.FirstOrDefault(o => o.Userid == userId && o.Createdat.Date == today);
+
+            var order = _orders.FirstOrDefault(o =>
+                o.Userid == userId &&
+                o.Createdat.Date == today
+            );
 
             if (order == null)
             {
@@ -125,42 +135,80 @@ namespace BarEscolar.Services
                 {
                     Id = GetNextOrderId(),
                     Userid = userId,
-                    Total = 0,
                     Createdat = DateTime.Now,
-                    State = true,
-                    OrderItems = new List<OrderItem>()
+                    Total = 0,
+                    State = true
                 };
+
                 _orders.Add(order);
             }
 
-            var orderItem = new OrderItem
+            var item = new OrderItem
             {
                 Id = GetNextOrderItemId(),
                 Orderid = order.Id,
                 Productid = menuId,
+                IsMenu = true, // ← AQUI ESTÁ O FIX!
                 Quantity = 1,
                 Unitprice = 0,
                 Subtotal = 0
             };
-            _orderItems.Add(orderItem);
+
+            _orderItems.Add(item);
+
             SaveOrders();
             SaveOrderItems();
         }
 
-        public void CancelOrderItemById(int orderItemId) => RemoveOrderItem(orderItemId);
+        // ---------------- HELPERS ----------------
 
         public Dictionary<int, int> GetRemainingSeats()
         {
             return _orderItems
+                .Where(o => o.IsMenu) // só menus contam
                 .GroupBy(oi => oi.Productid)
                 .ToDictionary(g => g.Key, g => g.Count());
         }
-
-        public bool IsMenuAlreadyMarked(string userId, DateTime menuDate)
+        public void BuyProduct(string userId, int productId, double price)
         {
-            var userOrders = GetOrdersByUser(userId);
-            var markedDates = userOrders.SelectMany(o => o.OrderItems).Select(oi => oi.Productid).ToList();
-            return markedDates.Any();
+            var order = _orders.FirstOrDefault(o =>
+                o.Userid == userId &&
+                o.Createdat.Date == DateTime.Today
+            );
+
+            if (order == null)
+            {
+                order = new Order
+                {
+                    Id = GetNextOrderId(),
+                    Userid = userId,
+                    Createdat = DateTime.Now,
+                    Total = 0,
+                    State = true
+                };
+
+                _orders.Add(order);
+            }
+
+            var item = new OrderItem
+            {
+                Id = GetNextOrderItemId(),
+                Orderid = order.Id,
+                Productid = productId,
+                Quantity = 1,
+                Unitprice = price,
+                Subtotal = price,
+                IsMenu = false,          // ← AGORA É PRODUTO, NÃO MENU
+                CreatedAt = DateTime.Now
+            };
+
+            _orderItems.Add(item);
+
+            order.Total += price;
+
+            SaveOrders();
+            SaveOrderItems();
         }
+
     }
 }

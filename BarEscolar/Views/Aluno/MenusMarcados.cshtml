@@ -5,13 +5,11 @@
     var allMenus = ViewBag.AllMenus as List<BarEscolar.Models.MenuDay>;
 }
 
-<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+<h1>Menus Marcados — @ViewBag.User.FullName</h1>
 
 <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">
     Voltar aos Menus
 </a>
-
-<h2>Menus Marcados</h2>
 
 @if (!Model.Any())
 {
@@ -27,13 +25,13 @@ else
                 <th>Tipo</th>
                 <th>Sobremesa</th>
                 <th>Sopa</th>
-                <th></th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                var menu = allMenus?.FirstOrDefault(m => m.Id == item.Productid);
+                var menu = allMenus.FirstOrDefault(m => m.Id == item.Productid);
                 if (menu != null)
                 {
                     <tr>

@@ -43,21 +43,29 @@
             <td>
                 <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a>
             </td>
-            <td>
-                @if (prod.Stock == 0)
-                {
-                    <button class="btn btn-secondary btn-sm" disabled>Sem Stock</button>
-                }
-                else
-                {
-                    <a asp-action="Comprar"
-                        asp-route-id="@ViewBag.User.ID"
-                        asp-route-prodid="@prod.Id"
-                        class="btn btn-success btn-sm">
-                        Comprar
-                    </a>
-                }
-            </td>
+                <td>
+                    @{
+                        var userOrders = ViewBag.MarkedMenuIds as List<int>;
+                        bool alreadyBought = userOrders != null && userOrders.Contains(prod.Id);
+                    }
+                    @if (prod.Stock == 0)
+                    {
+                        <button class="btn btn-secondary btn-sm" disabled>Sem Stock</button>
+                    }
+                    else if (alreadyBought)
+                    {
+                        <button class="btn btn-warning btn-sm" disabled>Comprado</button>
+                    }
+                    else
+                    {
+                        <a asp-action="Comprar"
+                           asp-route-id="@ViewBag.User.ID"
+                           asp-route-prodid="@prod.Id"
+                           class="btn btn-success btn-sm">
+                            Comprar
+                        </a>
+                    }
+                </td>
         </tr>
     }
     </tbody>

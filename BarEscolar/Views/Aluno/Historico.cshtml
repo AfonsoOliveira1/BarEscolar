@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<BarEscolar.Models.OrderItem>
 
 @{
-    ViewData["Title"] = "Histórico de Marcação";
+    ViewData["Title"] = "Histórico de Pedidos";
     var allMenus = ViewBag.AllMenus as List<BarEscolar.Models.MenuDay>;
+    var allProducts = ViewBag.AllProducts as List<BarEscolar.Models.Product>;
+    var allOrders = ViewBag.AllOrders as List<BarEscolar.Models.Order>;
 }
 
-<h1>Histórico de Marcação — @ViewBag.User.FullName</h1>
+<h1>Histórico — @ViewBag.User.FullName</h1>
 
 <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">
     Voltar aos Menus
@@ -13,7 +15,7 @@
 
 @if (!Model.Any())
 {
-    <p>Não existem marcações no histórico.</p>
+    <p>Não existem pedidos no histórico.</p>
 }
 else
 {
@@ -21,40 +23,71 @@ else
         <thead>
             <tr>
                 <th>Data</th>
-                <th>Prato Principal</th>
+                <th>Nome</th>
                 <th>Tipo</th>
                 <th>Sobremesa</th>
                 <th>Sopa</th>
+                <th>Preço</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                var menu = allMenus?.FirstOrDefault(m => m.Id == item.Productid);
-                if (menu != null)
+                var order = allOrders.FirstOrDefault(o => o.Id == item.Orderid);
+                if (item.IsMenu)
                 {
-                    <tr>
-                        <td>@menu.Date.ToShortDateString()</td>
-                        <td>@menu.MainDish</td>
-                        <td>@(menu.option == "A" ? "Não-Vegan" : "Vegan")</td>
-                        <td>@menu.Dessert</td>
-                        <td>@menu.Soup</td>
-                        <td>
-                            @if (item.Quantity == 0)
-                            {
-                                <span class="text-danger">Cancelado</span>
-                            }
-                            else if (menu.Date.Date < DateTime.Today)
-                            {
-                                <span class="text-muted">Concluído</span>
-                            }
-                            else
-                            {
-                                <span class="text-success">Marcado</span>
-                            }
-                        </td>
-                    </tr>
+                    var menu = allMenus.FirstOrDefault(m => m.Id == item.Productid);
+                    if (menu != null)
+                    {
+                        <tr>
+                            <td>@order?.Createdat.ToShortDateString()</td>
+                            <td>@menu.MainDish</td>
+                            <td>@(menu.option == "A" ? "Não-Vegan" : "Vegan")</td>
+                            <td>@menu.Dessert</td>
+                            <td>@menu.Soup</td>
+                            <td>@item.Subtotal.ToString("C")</td>
+                            <td>
+                                @if (item.Quantity == 0)
+                                {
+                                    <span class="text-danger">Cancelado</span>
+                                }
+                                else if (menu.Date.Date < DateTime.Today)
+                                {
+                                    <span class="text-muted">Concluído</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">Marcado</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else // Produto
+                {
+                    var prod = allProducts.FirstOrDefault(p => p.Id == item.Productid);
+                    if (prod != null)
+                    {
+                        <tr>
+                            <td>@order?.Createdat.ToShortDateString()</td>
+                            <td>@prod.Name</td>
+                            <td>Produto</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>@item.Subtotal.ToString("C")</td>
+                            <td>
+                                @if (item.Quantity == 0)
+                                {
+                                    <span class="text-danger">Cancelado</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">Comprado</span>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
             }
         </tbody>

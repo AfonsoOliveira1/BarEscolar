@@ -7,6 +7,7 @@
         public double Total { get; set; }
         public DateTime Createdat { get; set; }
         public bool State { get; set; }
+        public string Type { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();
     }
 }

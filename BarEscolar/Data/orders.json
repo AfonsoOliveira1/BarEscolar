@@ -3,14 +3,37 @@
     "Id": 1,
     "Userid": "0f102f72-4b55-4c38-9988-901a04631c02",
     "Total": 0,
-    "Createdat": "2025-11-17T16:24:42.6693698+00:00",
+    "Createdat": "2025-11-29T13:37:52.6945873+00:00",
     "State": false,
+    "Type": "Produto",
     "OrderItems": [
       {
         "Id": 1,
         "Orderid": 1,
-        "Productid": 5,
+        "Productid": 3,
+        "IsMenu": false,
         "Quantity": 1,
+        "CreatedAt": "0001-01-01T00:00:00",
+        "Unitprice": 12,
+        "Subtotal": 12
+      },
+      {
+        "Id": 2,
+        "Orderid": 1,
+        "Productid": 1,
+        "IsMenu": true,
+        "Quantity": 1,
+        "CreatedAt": "0001-01-01T00:00:00",
+        "Unitprice": 0,
+        "Subtotal": 0
+      },
+      {
+        "Id": 3,
+        "Orderid": 1,
+        "Productid": 3,
+        "IsMenu": true,
+        "Quantity": 1,
+        "CreatedAt": "0001-01-01T00:00:00",
         "Unitprice": 0,
         "Subtotal": 0
       }
@@ -18,18 +41,11 @@
   },
   {
     "Id": 2,
-    "Userid": "ab11c904-33e6-44df-bae4-468e338cfffc",
-    "Total": 0,
-    "Createdat": "2025-11-17T16:26:01.7178262+00:00",
-    "State": false,
-    "OrderItems": []
-  },
-  {
-    "Id": 3,
     "Userid": "0f102f72-4b55-4c38-9988-901a04631c02",
     "Total": 0,
-    "Createdat": "2025-11-20T15:06:08.0557965+00:00",
+    "Createdat": "2025-11-29T13:46:54.6832704+00:00",
     "State": false,
+    "Type": "Menu",
     "OrderItems": []
   }
 ]

@@ -17,10 +17,8 @@
         @category?.Name;
     }
 </p>
-
-<a asp-action="ComprarConfirmed"
-   asp-route-id="@ViewBag.User.ID"
-   asp-route-menuId="@Model.Id"
-   class="btn btn-success">
-    Confirmar Marcação
-</a>
+<form asp-action="ComprarConfirmed" method="post">
+    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
+    <input type="hidden" name="prodid" value="@Model.Id" />
+    <button type="submit" class="btn btn-success">Confirmar Compra</button>
+</form>
