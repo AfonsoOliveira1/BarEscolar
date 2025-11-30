@@ -9,9 +9,7 @@
 
 <h1 class="historico-title">Histórico — @ViewBag.User.FullName</h1>
 
-<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mt-3">
-    Voltar aos Menus
-</a>
+
 
 @if (!Model.Any())
 {
@@ -94,5 +92,10 @@ else
                 }
             </tbody>
         </table>
+        <center>
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mt-3">
+            Voltar aos Menus
+        </a>
+        </center>
     </div>
 }
