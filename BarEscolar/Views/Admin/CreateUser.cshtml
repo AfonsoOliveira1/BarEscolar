@@ -6,6 +6,8 @@
 <h1>Criar Utilizador</h1>
 
 <form asp-action="CreateUser" method="post">
+    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
+
     <div class="form-group">
         <label>Nome Completo</label>
         <input asp-for="FullName" class="form-control" required />
@@ -32,6 +34,6 @@
     </div>
     <button type="submit" class="btn btn-success mt-2">Criar</button>
 </form>
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">
+<a asp-controller="Admin" asp-action="Users" asp-route-userid="@ViewBag.User.ID" class="btn btn-secondary mt-3">
     Voltar ao Dashboard
 </a>

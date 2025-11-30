@@ -8,7 +8,8 @@
 <h2>Editar Produto</h2>
 
 <form asp-action="EditProduct" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
 
     <div class="mb-3">
         <label>Nome</label>
@@ -84,6 +85,6 @@
     </div>
 
     <button class="btn btn-primary">Guardar</button>
-    <a asp-action="Products" class="btn btn-secondary">Cancelar</a>
+    <a asp-action="Products" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary">Cancelar</a>
 </form>
 <script src="/js/site.js"></script>

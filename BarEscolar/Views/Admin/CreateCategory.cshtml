@@ -3,6 +3,7 @@
 <h2>Nova Categoria</h2>
 
 <form asp-action="CreateCategory" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@ViewBag.User.ID" />
 
     <div class="mb-3">
         <label>Imagem</label>
@@ -15,5 +16,5 @@
     </div>
 
     <button type="submit" class="btn btn-success mt-2">Guardar</button>
-    <a asp-action="Categories" class="btn btn-secondary mt-2">Cancelar</a>
+    <a asp-action="Categories" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-2">Cancelar</a>
 </form>

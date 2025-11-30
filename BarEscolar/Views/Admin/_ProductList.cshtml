@@ -36,9 +36,9 @@
                 <td>@p.Description</td>
                 <td>@(p.IsActive ? "Sim" : "Não")</td>
                 <td>
-                    <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="EditProduct" asp-route-userid="@ViewBag.User.ID" asp-route-prodid="@p.Id" class="btn btn-warning btn-sm">Editar</a>
 
-                    <form asp-action="DeleteProduct" asp-route-id="@p.Id" method="post" style="display:inline-block">
+                    <form asp-action="DeleteProduct" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@p.Id" method="post" style="display:inline-block">
                         <button class="btn btn-danger btn-sm"
                                 onclick="return confirm('Apagar este produto?');">
                             Apagar
@@ -50,4 +50,4 @@
     </tbody>
 </table>
 
-<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary mt-3">Voltar ao Dashboard</a>
+<a asp-controller="Admin" asp-route-id="@ViewBag.User.ID" asp-action="Index" class="btn btn-secondary mt-3">Voltar ao Dashboard</a>

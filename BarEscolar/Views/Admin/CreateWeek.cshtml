@@ -4,10 +4,13 @@
 
 <h1>Criar Semana</h1>
 
-<form asp-action="CreateWeek" method="post">
+<form asp-action="CreateWeek" asp-route-id="@ViewBag.User.ID" method="post">
     <div class="form-group">
         <label>Semana começando em:</label>
         <input type="date" name="weekstart" class="form-control" required />
     </div>
     <button type="submit" class="btn btn-primary mt-2">Criar Semana</button>
 </form>
+<div class="mt-3">
+    <a asp-controller="Admin" asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn admin-btn-secondary">Voltar ao Dashboard</a>
+</div>

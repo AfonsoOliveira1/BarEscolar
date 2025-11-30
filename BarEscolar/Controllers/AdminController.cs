@@ -50,7 +50,21 @@ namespace BarEscolar.Controllers
         }
 
         // ---------------- MENUWEEK & MENU DAY CRUD ----------------
-        public IActionResult CreateWeek(DateTime weekstart)
+        public IActionResult CreateWeek(string id)
+        {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+            ViewBag.User = user;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateWeek(DateTime weekstart, string id)
         {
             var week = new MenuWeek
             {
@@ -59,25 +73,46 @@ namespace BarEscolar.Controllers
                 menuDays = new List<MenuDay>()
             };
             _menuStore.AddWeek(week);
-            return RedirectToAction("Index");
+            return RedirectToAction("MenuWeeks", new {id = id});
         }
-
-        public IActionResult EditWeek(int id)
+        [HttpGet]
+        public IActionResult EditWeek(int weekid, string id)
         {
-            var week = _menuStore.FindWeekById(id);
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
+            var week = _menuStore.FindWeekById(weekid);
             if (week == null) return NotFound();
             return View(week);
         }
 
         [HttpPost]
-        public IActionResult DeleteWeek(int id)
+        public IActionResult DeleteWeek(int weekid, string id)
         {
-            _menuStore.RemoveWeek(id);
-            return RedirectToAction("Index");
+            _menuStore.RemoveWeek(weekid);
+            return RedirectToAction("MenuWeeks", new {id = id});
         }
 
-        public IActionResult CreateDay(int weekId)
+        public IActionResult CreateDay(int weekId, string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var day = new MenuDay
             {
                 menuweekid = weekId,
@@ -87,7 +122,7 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateDay(int weekId,MenuDay day)
+        public IActionResult CreateDay(int weekId,MenuDay day, string id)
         {
             day.Id = _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).Any()
                 ? _menuStore.GetAllWeeks().SelectMany(w => w.menuDays).Max(d => d.Id) + 1
@@ -95,18 +130,28 @@ namespace BarEscolar.Controllers
 
             day.menuweekid = weekId;
             _menuStore.AddDayToWeek(weekId, day);
-            return RedirectToAction("EditWeek", new { id = weekId });
+            return RedirectToAction("EditWeek", new { weekid = day.menuweekid, id = id });
         }
 
-        public IActionResult EditDay(int dayId)
+        public IActionResult EditDay(int dayId, string userid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(userid);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var day = _menuStore.FindDayById(dayId);
             if (day == null) return NotFound();
             return View(day);
         }
 
         [HttpPost]
-        public IActionResult EditDay(MenuDay day)
+        public IActionResult EditDay(MenuDay day, string userid)
         {
             var existing = _menuStore.FindDayById(day.Id);
             if (existing == null) return NotFound();
@@ -120,25 +165,33 @@ namespace BarEscolar.Controllers
             existing.MaxSeats = day.MaxSeats;
 
             _menuStore.Save();
-            return RedirectToAction("EditWeek", new { id = day.menuweekid });
+            return RedirectToAction("EditWeek", new { weekid = day.menuweekid, id = userid });
         }
 
         [HttpPost]
-        public IActionResult DeleteDay(int dayId)
+        public IActionResult DeleteDay(int dayId, string id)
         {
             var day = _menuStore.FindDayById(dayId);
             if (day == null) return NotFound();
             int weekId = day.menuweekid;
             _menuStore.RemoveDay(dayId);
-            return RedirectToAction("EditWeek", new { id = weekId });
+            return RedirectToAction("EditWeek", new { weekid = day.menuweekid, id = id });
         }
 
         // ---------------- PRODUCT CRUD ----------------
         public IActionResult Products(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
-            if (user == null) return NotFound("Usuário não encontrado.");
             ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             ViewBag.Categories = _categoryStore.GetAll();
             var products = _productStore.GetAllProducts();
             return View(products);
@@ -172,14 +225,25 @@ namespace BarEscolar.Controllers
             return PartialView("_ProductList", prod);
         }
 
-        public IActionResult CreateProduct()
+        public IActionResult CreateProduct(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             ViewBag.Categories = _categoryStore.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(Product product, IFormFile imageFile)
+        public IActionResult CreateProduct(Product product, IFormFile imageFile, string id)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -202,12 +266,23 @@ namespace BarEscolar.Controllers
             }
             product.Id = _productStore.GetNextProductId();
             _productStore.Add(product);
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", new {id = id});
         }
 
-        public IActionResult EditProduct(int id)
+        public IActionResult EditProduct(string userid, int prodid)
         {
-            var product = _productStore.FindById(id);
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(userid);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
+            var product = _productStore.FindById(prodid);
             if (product == null) return NotFound();
 
             ViewBag.Categories = _categoryStore.GetAll();
@@ -215,7 +290,7 @@ namespace BarEscolar.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(Product product, IFormFile imageFile)
+        public IActionResult EditProduct(Product product, IFormFile imageFile, string userid)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -237,30 +312,48 @@ namespace BarEscolar.Controllers
                 }
             }
             _productStore.Update(product);
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", new {id = userid});
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(string id, int prodid)
         {
-            _productStore.Remove(id);
-            return RedirectToAction("Products");
+            _productStore.Remove(prodid);
+            return RedirectToAction("Products", new {id = id});
         }
 
         // ---------------- CATEGORY CRUD ----------------
-        public IActionResult Categories()
+        public IActionResult Categories(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
             var categories = _categoryStore.GetAll();
             return View(categories);
         }
 
-        public IActionResult CreateCategory()
+        public IActionResult CreateCategory(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(Category category, IFormFile imageFile)
+        public IActionResult CreateCategory(Category category, IFormFile imageFile, string id)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -283,18 +376,28 @@ namespace BarEscolar.Controllers
             }
             category.Id = _categoryStore.GetAll().Any() ? _categoryStore.GetAll().Max(c => c.Id) + 1 : 1;
             _categoryStore.Add(category);
-            return RedirectToAction("Categories");
+            return RedirectToAction("Categories", new {id = id});
         }
 
-        public IActionResult EditCategory(int id)
+        public IActionResult EditCategory(int catid, string id)
         {
-            var category = _categoryStore.FindById(id);
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
+            var category = _categoryStore.FindById(catid);
             if (category == null) return NotFound();
             return View(category);
         }
 
         [HttpPost]
-        public IActionResult EditCategory(Category category, IFormFile imageFile)
+        public IActionResult EditCategory(Category category, IFormFile imageFile, string userid)
         {
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -316,30 +419,52 @@ namespace BarEscolar.Controllers
                 }
             }
             _categoryStore.Update(category);
-            return RedirectToAction("Categories");
+            return RedirectToAction("Categories", new {id = userid});
         }
 
         [HttpPost]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory(int catid, string id)
         {
-            _categoryStore.Delete(id);
-            return RedirectToAction("Categories");
+            _categoryStore.Delete(catid);
+            return RedirectToAction("Categories", new {id = id});
         }
 
         // ---------------- USER CRUD ----------------
-        public IActionResult Users()
+        public IActionResult Users(string userid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(userid);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var users = _userStore.GetAll();
             return View("IndexUsers", users); // explicitly use IndexUsers.cshtml
         }
 
-        public IActionResult CreateUser()
+        public IActionResult CreateUser(string userid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(userid);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateUser(string fullName, string email, string username, string password, UserRole role)
+        public IActionResult CreateUser(string userid, string fullName, string email, string username, string password, UserRole role)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
@@ -348,18 +473,29 @@ namespace BarEscolar.Controllers
             }
 
             _auth.CreateUser(fullName, email, username, password, role);
-            return RedirectToAction("Users");
+            return RedirectToAction("Users", new {userid = userid});
         }
 
-        public IActionResult EditUser(string id)
+        public IActionResult EditUser(string userid, string id)
         {
-            var user = _userStore.FindById(id);
-            if (user == null) return NotFound();
-            return View(user);
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(userid);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
+            var user1 = _userStore.FindById(id);
+            if (user1 == null) return NotFound();
+            return View(user1);
         }
 
         [HttpPost]
-        public IActionResult EditUser(string id, string fullName, string email, string username, string? password, UserRole role)
+        public IActionResult EditUser(string userid, string id, string fullName, string email, string username, string? password, UserRole role)
         {
             var user = _userStore.FindById(id);
             if (user == null) return NotFound();
@@ -376,19 +512,30 @@ namespace BarEscolar.Controllers
             }
 
             _userStore.Save();
-            return RedirectToAction("Users");
+            return RedirectToAction("Users", new {userid = userid});
         }
 
         [HttpPost]
-        public IActionResult DeleteUser(string id)
+        public IActionResult DeleteUser(string userid, string id)
         {
             _userStore.RemoveUser(id);
-            return RedirectToAction("Users");
+            return RedirectToAction("Users", new {userid = userid});
         }
 
         // ---------------- MENUWEEKS LIST ----------------
-        public IActionResult MenuWeeks()
+        public IActionResult MenuWeeks(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Admin" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var weeks = _menuStore.GetAllWeeks();
             return View(weeks);
         }

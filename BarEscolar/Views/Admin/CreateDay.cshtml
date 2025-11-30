@@ -6,7 +6,7 @@
 
 <h2>Criar Dia do Menu</h2>
 
-<form asp-action="CreateDay" method="post">
+<form asp-action="CreateDay" asp-route-id="@ViewBag.User.ID" method="post">
     <input type="hidden" asp-for="menuweekid" />
     <input type="hidden" name="weekId" value="@Model.menuweekid"/> 
 
@@ -49,5 +49,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-    <a asp-action="EditWeek" asp-route-id="@Model.menuweekid" class="btn btn-secondary">Cancelar</a>
+    <a asp-action="EditWeek" asp-route-weekid="@Model.menuweekid" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary">Cancelar</a>
 </form>

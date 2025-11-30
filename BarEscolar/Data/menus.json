@@ -6,13 +6,13 @@
       {
         "Id": 1,
         "menuweekid": 1,
-        "Date": "2025-12-01T00:00:00+00:00",
+        "Date": "2025-12-01T00:00:00",
         "option": "A",
         "MainDish": "Frango grelhado com arroz e salada",
         "Soup": "Sopa de legumes",
         "Dessert": "Ma\u00E7\u00E3 assada",
         "Notes": "Cl\u00E1ssico saud\u00E1vel e leve.",
-        "MaxSeats": 30
+        "MaxSeats": 32
       },
       {
         "Id": 2,
@@ -232,13 +232,8 @@
     ]
   },
   {
-    "id": 3,
-    "weekstart": "0001-01-01",
-    "menuDays": []
-  },
-  {
-    "id": 4,
-    "weekstart": "0001-01-01",
+    "id": 18,
+    "weekstart": "2025-11-20",
     "menuDays": []
   }
 ]

@@ -3,7 +3,8 @@
 <h2>Editar Categoria</h2>
 
 <form asp-action="EditCategory" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
 
     <div class="mb-3">
         <label>Imagem</label>
@@ -16,5 +17,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary mt-2">Guardar Alterações</button>
-    <a asp-action="Categories" class="btn btn-secondary mt-2">Cancelar</a>
+    <a asp-action="Categories" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-2">Cancelar</a>
 </form>

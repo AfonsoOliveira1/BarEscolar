@@ -1,13 +1,15 @@
 [
   {
     "Id": 1,
+    "ImagePath": "Sem Imagem",
     "Name": "peixe",
     "Description": "",
     "IsActive": false
   },
   {
     "Id": 2,
-    "Name": "pao",
+    "ImagePath": "Sem Imagem",
+    "Name": "paos",
     "Description": "",
     "IsActive": false
   }

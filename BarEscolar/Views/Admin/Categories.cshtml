@@ -2,7 +2,7 @@
 
 <h2>Categorias</h2>
 
-<a class="btn btn-success" asp-action="CreateCategory">Nova Categoria</a>
+<a class="btn btn-success" asp-action="CreateCategory" asp-route-id="@ViewBag.User.ID">Nova Categoria</a>
 
 <table class="table mt-3">
     <thead>
@@ -30,10 +30,11 @@
                 </td>
                 <td>@c.Name</td>
                 <td>
-                    <a asp-action="EditCategory" asp-route-id="@c.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="EditCategory" asp-route-catid="@c.Id" asp-route-id="@ViewBag.User.ID" class="btn btn-sm btn-warning">Editar</a>
 
                     <form asp-action="DeleteCategory"
-                          asp-route-id="@c.Id"
+                          asp-route-catid="@c.Id"
+						  asp-route-id="@ViewBag.User.ID" 
                           method="post"
                           style="display:inline-block">
                         <button type="submit"
@@ -48,6 +49,6 @@
     </tbody>
 </table>
 
-<a asp-action="Index" asp-controller="Admin" class="btn btn-secondary mt-4">
+<a asp-action="Index" asp-controller="Admin" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-4">
     Voltar ao Dashboard
 </a>

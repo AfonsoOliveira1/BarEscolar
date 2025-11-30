@@ -7,9 +7,10 @@
 <h1 class="page-title">Gestão de Utilizadores</h1>
 
 <div class="dashboard-actions">
-    <form asp-action="CreateUser" method="get" style="display:inline-block;">
-        <button type="submit" class="admin-btn">Criar Novo Utilizador</button>
-    </form>
+<form asp-action="CreateUser" method="get" style="display:inline-block;">
+    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
+    <button type="submit" class="admin-btn">Criar Novo Utilizador</button>
+</form>
 </div>
 
 <div class="admin-table-wrapper mt-3">
@@ -33,10 +34,11 @@
                     <td>@user.role</td>
                     <td>
                         <form asp-action="EditUser" asp-route-id="@user.ID" method="get" style="display:inline-block;">
+                            <input type="hidden" name="userid" value="@ViewBag.User.ID" />
                             <button type="submit" class="admin-btn-warning">Editar</button>
                         </form>
 
-                        <form asp-action="DeleteUser" asp-route-id="@user.ID" method="post" style="display:inline-block;">
+                        <form asp-action="DeleteUser" asp-route-userid="@ViewBag.User.ID" asp-route-id="@user.ID" method="post" style="display:inline-block;">
                             <button type="submit" class="admin-btn-danger"
                                     onclick="return confirm('Tem a certeza que quer eliminar este utilizador?');">
                                 Eliminar
@@ -48,3 +50,4 @@
         </tbody>
     </table>
 </div>
+<a asp-controller="Admin" asp-route-id="@ViewBag.User.ID" asp-action="Index" class="btn btn-secondary mt-3">Voltar ao Dashboard</a>

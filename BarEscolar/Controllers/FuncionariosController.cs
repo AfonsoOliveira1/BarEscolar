@@ -30,13 +30,13 @@ namespace BarEscolar.Controllers
             var userRole = HttpContext.Session.GetString("UserRole");
             var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
+            ViewBag.User = user;
             if (user == null)
                 return NotFound("Usuário não encontrado.");
 
             if (userName == null || userRole != "Funcionario" || userId != user.ID)
                 return RedirectToAction("Login", "Login");
 
-            ViewBag.User = user;
             ViewBag.Products = _productStore.GetAllProducts();
             ViewBag.Categories = _categoryStore.GetAll();
             return View(_productStore.GetAllProducts());
@@ -45,30 +45,43 @@ namespace BarEscolar.Controllers
         [HttpGet]
         public IActionResult DetailsProd(string id, int prodid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Funcionario" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var product = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
             if (product == null)
                 return NotFound();
 
-            var user = _userStore.FindById(id);
-            if (user == null)
-                return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
             return View(product);
         }
 
         [HttpGet]
         public IActionResult EditProd(string id, int prodid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Funcionario" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var produto = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
 
             if (produto == null)
                 return NotFound();
 
-            var user = _userStore.FindById(id);
-            if (user == null)
-                return NotFound("Usuário não encontrado.");
-
-            ViewBag.User = user;
             ViewBag.Categories = _categoryStore.GetAll();
             return View(produto);
         }
@@ -113,10 +126,17 @@ namespace BarEscolar.Controllers
         [HttpGet]
         public IActionResult CreateProd(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
+            ViewBag.User = user;
             if (user == null)
                 return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
+
+            if (userName == null || userRole != "Funcionario" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             ViewBag.Categories = _categoryStore.GetAll();
             return View();
         }
@@ -149,10 +169,17 @@ namespace BarEscolar.Controllers
         //Category CRUD -----------------------------------
         public IActionResult CreateCat(string id)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
+            ViewBag.User = user;
             if (user == null)
                 return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
+
+            if (userName == null || userRole != "Funcionario" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             ViewBag.Categories = _categoryStore.GetAll();
             return View();
         }
@@ -184,10 +211,17 @@ namespace BarEscolar.Controllers
         }
         public IActionResult EditCat(string id, int catid)
         {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
             var user = _userStore.FindById(id);
+            ViewBag.User = user;
             if (user == null)
                 return NotFound("Usuário não encontrado.");
-            ViewBag.User = user;
+
+            if (userName == null || userRole != "Funcionario" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
             var category = _categoryStore.FindById(catid);
             if (category == null) return NotFound();
             return View(category);

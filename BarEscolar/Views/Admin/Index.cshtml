@@ -30,10 +30,10 @@
     </div>
 
     <div class="dashboard-actions mt-4">
-        <a class="btn admin-btn" asp-action="MenuWeeks" asp-controller="Admin">Gerir Menus</a>
-        <a class="btn admin-btn" asp-action="Categories" asp-controller="Admin">Gerir Categorias</a>
+        <a class="btn admin-btn" asp-action="MenuWeeks" asp-route-id="@ViewBag.User.ID" asp-controller="Admin">Gerir Menus</a>
+        <a class="btn admin-btn" asp-action="Categories" asp-route-id="@ViewBag.User.ID" asp-controller="Admin">Gerir Categorias</a>
         <a class="btn admin-btn" asp-action="Products" asp-route-id="@ViewBag.User.ID" asp-controller="Admin">Gerir Produtos</a>
-        <a class="btn admin-btn" asp-action="Users" asp-controller="Admin">Gerir Utilizadores</a>
+        <a class="btn admin-btn" asp-action="Users" asp-route-userid="@ViewBag.User.ID" asp-controller="Admin">Gerir Utilizadores</a>
     </div>
 
 </div>
