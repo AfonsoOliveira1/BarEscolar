@@ -48,5 +48,15 @@
     "CreatedAt": "0001-01-01T00:00:00",
     "Unitprice": 12,
     "Subtotal": 12
+  },
+  {
+    "Id": 6,
+    "Orderid": 3,
+    "Productid": 5,
+    "IsMenu": false,
+    "Quantity": 1,
+    "CreatedAt": "0001-01-01T00:00:00",
+    "Unitprice": 14,
+    "Subtotal": 14
   }
 ]

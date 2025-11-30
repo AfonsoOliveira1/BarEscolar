@@ -66,5 +66,10 @@ namespace BarEscolar.Controllers
             TempData["SuccessMessage"] = "Conta criada com sucesso! Faça login.";
             return RedirectToAction("Login");
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // apaga toda a sessão
+            return RedirectToAction("Login");
+        }
     }
 }

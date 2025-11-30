@@ -239,6 +239,41 @@ namespace BarEscolar.Controllers
             return View(prod);
         }
 
+        public IActionResult LoadProducts(string id, string category = "", string price = "", string allergen = "")
+        {
+            var user = _userStore.FindById(id);
+            if (user == null) return NotFound("Usuário não encontrado.");
+            ViewBag.User = user;
+            var prod = _productStore.GetAllProducts().AsEnumerable();
+
+            ViewBag.SelectedCategory = category;
+            ViewBag.SelectedPrice = price;
+
+            // Filtro categoria
+            if (!string.IsNullOrEmpty(category))
+            {
+                var cat = _categoryStore.GetAll().FirstOrDefault(c => c.Name == category);
+                var filteredProds = _productStore.GetAllProducts()
+                                    .Where(p => p.CategoryId == cat?.Id)
+                                    .ToList();
+                prod = filteredProds;
+                if (cat != null)
+                    prod = prod.Where(p => p.CategoryId == cat.Id);
+            }
+            // Filtro alergénio
+            if (!string.IsNullOrEmpty(allergen))
+                prod = prod.Where(p => !string.IsNullOrEmpty(p.Allergens) && p.Allergens.Contains(allergen, StringComparison.OrdinalIgnoreCase));
+
+            // Filtro preço
+            if (price == "low")
+                prod = prod.OrderBy(p => p.Price);
+            else if (price == "high")
+                prod = prod.OrderByDescending(p => p.Price);
+
+            ViewBag.Categories = _categoryStore.GetAll();
+
+            return PartialView("_ProductList", prod);
+        }
         public IActionResult Comprar(string id, int prodid)
         {
             var user = _userStore.FindById(id);
