@@ -3,106 +3,136 @@
     ViewData["Title"] = "Funcionario";
     List<Category> categories = ViewBag.Categories;
 }
-<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
-<h2>Produtos do Bar</h2>
-<a class="btn btn-success mb-3" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
 
-<table class="table table-striped">
-    <thead>
+<h1 class="mb-4">Bem-vindo, @ViewBag.User.FullName!</h1>
+
+<!-- Produtos -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Produtos do Bar</h2>
+    <a class="btn btn-success" asp-route-id="@ViewBag.User.ID" asp-action="CreateProd">Novo Produto</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
         <tr>
-            <th>Imagem</th>
+            <th style="width: 90px;">Imagem</th>
             <th>Nome</th>
             <th>Preço</th>
             <th>Stock</th>
             <th>Descrição</th>
             <th>Categoria</th>
-            <th>Ações</th>
+            <th style="width: 160px;">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var prod in Model)
         {
             <tr>
-                <td>
-                    @if(!string.IsNullOrEmpty(prod.ImagePath))
+                <td class="text-center">
+                    @if (!string.IsNullOrEmpty(prod.ImagePath))
                     {
-                        <center>
-                            <img src="/Images/@prod.ImagePath" style="width:70px"/>
-                        </center>
+                        <img src="/Images/@prod.ImagePath" class="img-fluid rounded" style="width:70px;" />
                     }
                     else
                     {
                         <span>Sem Imagem</span>
                     }
                 </td>
+
                 <td>@prod.Name</td>
-                <td>@prod.Price</td>
+                <td>@prod.Price €</td>
                 <td>@prod.Stock</td>
                 <td>@prod.Description</td>
+
                 <td>
                     @{
                         var category = categories?.FirstOrDefault(c => c.Id == prod.CategoryId);
-                        @category?.Name;
+                        @category?.Name
                     }
                 </td>
+
                 <td>
-                    <a asp-action="DetailsProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Detalhes</a> |
-                    <a asp-controller="Funcionarios" asp-action="EditProd" asp-route-id="@ViewBag.User.ID" asp-route-prodid="@prod.Id">Editar</a> |
-                    <form asp-action="DeleteProd" method="post" style="display:inline;">
-						<input type="hidden" name="userid" value="@ViewBag.User.ID" />
-                        <input type="hidden" name="prodid" value="@prod.Id" />
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Apagar</button>
-                    </form>
+                    <div class="d-flex gap-2">
+                        <a asp-action="DetailsProd"
+                           asp-route-id="@ViewBag.User.ID"
+                           asp-route-prodid="@prod.Id"
+                           class="btn btn-sm btn-primary">Detalhes</a>
+
+                        <a asp-controller="Funcionarios"
+                           asp-action="EditProd"
+                           asp-route-id="@ViewBag.User.ID"
+                           asp-route-prodid="@prod.Id"
+                           class="btn btn-sm btn-warning">Editar</a>
+
+                        <form asp-action="DeleteProd" method="post">
+                            <input type="hidden" name="userid" value="@ViewBag.User.ID" />
+                            <input type="hidden" name="prodid" value="@prod.Id" />
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Confirmar eliminação?');">
+                                Apagar
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<h2>Categorias</h2>
-<a class="btn btn-success" asp-action="CreateCat" asp-route-id="@ViewBag.User.ID">Nova Categoria</a>
 
-<table class="table mt-3">
-    <thead>
+<!-- Categorias -->
+<div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+    <h2>Categorias</h2>
+    <a class="btn btn-success" asp-action="CreateCat" asp-route-id="@ViewBag.User.ID">Nova Categoria</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
         <tr>
-            <th>Imagem</th>
+            <th style="width: 90px;">Imagem</th>
             <th>Nome</th>
-            <th></th>
+            <th style="width: 160px;">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var c in categories)
         {
             <tr>
-                <td>
+                <td class="text-center">
                     @if (!string.IsNullOrEmpty(c.ImagePath))
                     {
-                        <center>
-                            <img src="/Images/@c.ImagePath" style="width:70px" />
-                        </center>
+                        <img src="/Images/@c.ImagePath" class="img-fluid rounded" style="width:70px;" />
                     }
                     else
                     {
                         <span>Sem Imagem</span>
                     }
                 </td>
-                <td>@c.Name</td>
-                <td>
-                    <a asp-action="EditCat" asp-route-id="@ViewBag.User.ID" asp-route-catid="@c.Id" class="btn btn-sm btn-warning">Editar</a>
 
-                    <form asp-action="DeleteCat"
-                            asp-route-id="@ViewBag.User.ID"
-                            asp-route-catid="@c.Id"
-                            method="post"
-                            style="display:inline-block">
-                        <button type="submit"
-                                class="btn btn-sm btn-danger"
-                                onclick="return confirm('Tem a certeza que quer apagar esta categoria?');">
-                            Apagar
-                        </button>
-                    </form>
+                <td>@c.Name</td>
+
+                <td>
+                    <div class="d-flex gap-2">
+                        <a asp-action="EditCat"
+                           asp-route-id="@ViewBag.User.ID"
+                           asp-route-catid="@c.Id"
+                           class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+
+                        <form asp-action="DeleteCat"
+                              asp-route-id="@ViewBag.User.ID"
+                              asp-route-catid="@c.Id"
+                              method="post">
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Tem a certeza que quer apagar esta categoria?');">
+                                Apagar
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<h2>Pedidos</h2>

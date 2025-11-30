@@ -310,6 +310,26 @@ namespace BarEscolar.Controllers
 
             return PartialView("_ProductList", prod);
         }
+        [HttpGet]
+        public IActionResult DetailsProd(string id, int prodid)
+        {
+            var userName = HttpContext.Session.GetString("UserName");
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserID");
+            var user = _userStore.FindById(id);
+            ViewBag.User = user;
+            if (user == null)
+                return NotFound("Usuário não encontrado.");
+
+            if (userName == null || userRole != "Aluno" || userId != user.ID)
+                return RedirectToAction("Login", "Login");
+
+            var product = _productStore.GetAllProducts().FirstOrDefault(p => p.Id == prodid);
+            if (product == null)
+                return NotFound();
+
+            return View(product);
+        }
         public IActionResult Comprar(string id, int prodid)
         {
             var userName = HttpContext.Session.GetString("UserName");

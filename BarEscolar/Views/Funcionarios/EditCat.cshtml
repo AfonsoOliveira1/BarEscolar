@@ -1,21 +1,40 @@
 ﻿@model BarEscolar.Models.Category
 
-<h2>Editar Categoria</h2>
+<h2 class="mb-4">Editar Categoria</h2>
 
-<form asp-action="EditCat" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="userId" value="@ViewBag.User.ID" />
-    <input type="hidden" name="catid" value="@Model.Id" />
+<div class="card shadow-sm p-4">
 
-    <div class="mb-3">
-        <label>Imagem</label>
-        <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
-    </div>
+    <form asp-action="EditCat" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="userId" value="@ViewBag.User.ID" />
+        <input type="hidden" name="catid" value="@Model.Id" />
 
-    <div class="form-group">
-        <label>Nome</label>
-        <input asp-for="Name" class="form-control" required />
-    </div>
+        <!-- Imagem Atual -->
+        <div class="mb-3 text-center">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="/Images/@Model.ImagePath" class="img-fluid rounded mb-2" style="max-height: 140px;" />
+            }
+            else
+            {
+                <p><em>Sem Imagem Atual</em></p>
+            }
+        </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Guardar Alterações</button>
-    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-2">Cancelar</a>
-</form>
+        <!-- Upload nova imagem -->
+        <div class="mb-3">
+            <label class="form-label">Nova Imagem (opcional)</label>
+            <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
+        </div>
+
+        <!-- Nome -->
+        <div class="mb-3">
+            <label class="form-label">Nome da Categoria</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+
+        <!-- Botões -->
+        <button type="submit" class="btn btn-primary">Guardar Alterações</button>
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+
+</div>

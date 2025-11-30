@@ -1,56 +1,101 @@
 ﻿@model BarEscolar.Models.Product
 
-<h2>Editar Produto</h2>
+<h2 class="mb-4">Editar Produto</h2>
 
-<form asp-action="EditProd" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="UserId" value="@ViewBag.User.ID" />
-    <input type="hidden" name="Id" value="@Model.Id" />
+<div class="card shadow-sm p-4">
 
-    <div class="mb-2">
-        <p>Id do produto: @Model.Id</p>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
+    <form asp-action="EditProd" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="UserId" value="@ViewBag.User.ID" />
+        <input type="hidden" name="Id" value="@Model.Id" />
 
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
+        <p class="text-muted mb-4">ID do Produto: <strong>@Model.Id</strong></p>
 
-        <label asp-for="Stock"></label>
-        <input asp-for="Stock" class="form-control" />
+        <!-- Dados Principais -->
+        <h4 class="mb-3">Informações Básicas</h4>
 
-        <div class="mb-3">
-            <label>Imagem</label>
-            <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control">
+        <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label asp-for="Stock" class="form-label"></label>
+                <input asp-for="Stock" class="form-control" />
+            </div>
         </div>
 
-        <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" />
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
 
-        <label>Categoria</label>
-        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+        <!-- Categoria -->
+        <div class="mb-4">
+            <label class="form-label">Categoria</label>
+            <select asp-for="CategoryId"
+                    class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+            </select>
+        </div>
 
-        <label asp-for="Kcal"></label>
-        <input asp-for="Kcal" class="form-control" />
+        <!-- Nutrição -->
+        <h4 class="mb-3">Valores Nutricionais</h4>
 
-        <label asp-for="Protein"></label>
-        <input asp-for="Protein" class="form-control" />
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label asp-for="Kcal" class="form-label"></label>
+                <input asp-for="Kcal" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Protein" class="form-label"></label>
+                <input asp-for="Protein" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Fat" class="form-label"></label>
+                <input asp-for="Fat" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Carbs" class="form-label"></label>
+                <input asp-for="Carbs" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Salt" class="form-label"></label>
+                <input asp-for="Salt" class="form-control" />
+            </div>
+        </div>
 
-        <label asp-for="Fat"></label>
-        <input asp-for="Fat" class="form-control" />
+        <div class="mb-3">
+            <label asp-for="Allergens" class="form-label"></label>
+            <input asp-for="Allergens" class="form-control" />
+        </div>
 
-        <label asp-for="Carbs"></label>
-        <input asp-for="Carbs" class="form-control" />
+        <!-- Imagem -->
+        <h4 class="mt-4">Imagem do Produto</h4>
 
-        <label asp-for="Salt"></label>
-        <input asp-for="Salt" class="form-control" />
+        <div class="text-center my-3">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="/Images/@Model.ImagePath" class="img-fluid rounded" style="max-height:150px" />
+            }
+            else
+            {
+                <p><em>Sem imagem atual</em></p>
+            }
+        </div>
 
-        <label asp-for="Allergens"></label>
-        <input asp-for="Allergens" class="form-control" />
+        <div class="mb-3">
+            <label class="form-label">Alterar Imagem</label>
+            <input type="file" accept=".jpg, .jpeg, .png, .gif" name="imageFile" class="form-control" />
+        </div>
 
-    </div>
-
-    <button type="submit" class="btn btn-primary">Salvar alterações</button>
-</form>
-
-<p>
-    <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary">Voltar</a>
-</p>
+        <!-- Botões -->
+        <button type="submit" class="btn btn-primary mt-3">Salvar alterações</button>
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-3 ms-2">Voltar</a>
+    </form>
+</div>

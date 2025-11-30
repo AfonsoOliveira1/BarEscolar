@@ -1,42 +1,57 @@
 ﻿@model BarEscolar.Models.Product
 @{
     ViewData["Title"] = "Detalhes do Produto";
+    List<Category> categories = ViewBag.Categories;
+    var category = categories?.FirstOrDefault(c => c.Id == Model.CategoryId);
 }
-<h1>Detalhes do Produto</h1>
 
-<p>
-    @if (!string.IsNullOrEmpty(Model.ImagePath))
-    {
-        <center>
-            <img src="/Images/@Model.ImagePath" style="width:70px" />
-        </center>
-    }
-    else
-    {
-        <span>Sem Imagem</span>
-    }
-</p>
-<p><strong>Nome:</strong> @Model.Name</p>
-<p><strong>Descrição:</strong> @Model.Description</p>
-<p><strong>Preço:</strong> @Model.Price</p>
-<p><strong>Stock:</strong> @Model.Stock</p>
-<p>
-    <strong>Categoria:</strong>
-    @{
-        List<Category> categories = ViewBag.Categories;
-        var category = categories?.FirstOrDefault(c => c.Id == Model.CategoryId);
-        @category?.Name
-    }
-</p>
-<p><strong>Kcal:</strong>@Model.Kcal</p>
-<p><strong>Protein:</strong>@Model.Protein</p>
-<p><strong>Fat:</strong>@Model.Fat</p>
-<p><strong>Carbs:</strong>@Model.Carbs</p>
-<p><strong>Salt:</strong>@Model.Salt</p>
-<p><strong>Allergens:</strong>@Model.Allergens</p>
+<h2 class="mb-4">Detalhes do Produto</h2>
 
-<a asp-action="Index"
-   asp-route-id="@ViewBag.User.ID"
-   class="btn btn-primary">
-    Voltar
-</a>
+<div class="card shadow-sm p-4">
+
+    <div class="row">
+        <!-- Imagem -->
+        <div class="col-md-4 text-center">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="/Images/@Model.ImagePath" class="img-fluid rounded mb-3" style="max-height: 180px;" />
+            }
+            else
+            {
+                <p><em>Sem Imagem</em></p>
+            }
+        </div>
+
+        <!-- Informação principal -->
+        <div class="col-md-8">
+
+            <h4 class="mb-3">@Model.Name</h4>
+
+            <p><strong>Descrição:</strong> @Model.Description</p>
+            <p><strong>Preço:</strong> €@Model.Price</p>
+            <p><strong>Stock:</strong> @Model.Stock</p>
+            <p><strong>Categoria:</strong> @category?.Name</p>
+
+        </div>
+    </div>
+
+    <hr />
+
+    <h5 class="mb-3">Informação Nutricional</h5>
+
+    <div class="row">
+        <div class="col-md-4"><strong>Kcal:</strong> @Model.Kcal</div>
+        <div class="col-md-4"><strong>Proteína:</strong> @Model.Protein g</div>
+        <div class="col-md-4"><strong>Gordura:</strong> @Model.Fat g</div>
+
+        <div class="col-md-4 mt-2"><strong>Carboidratos:</strong> @Model.Carbs g</div>
+        <div class="col-md-4 mt-2"><strong>Sal:</strong> @Model.Salt g</div>
+        <div class="col-md-4 mt-2"><strong>Alergénios:</strong> @Model.Allergens</div>
+    </div>
+
+    <a asp-action="Index"
+       asp-route-id="@ViewBag.User.ID"
+       class="btn btn-primary mt-4 w-100">
+        Voltar
+    </a>
+</div>

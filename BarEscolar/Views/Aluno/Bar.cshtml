@@ -39,9 +39,12 @@
     @await Html.PartialAsync("_ProductList", Model)
 </div>
 
-<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn bar-back-btn">
-    Voltar aos Menus
+<a asp-action="Index"
+   asp-route-id="@ViewBag.User.ID"
+   class="btn btn-primary mt-3">
+    Voltar ao Bar da Escola
 </a>
+
 
 <script>
     document.getElementById("categoryFilter").addEventListener("change", loadFiltered);
