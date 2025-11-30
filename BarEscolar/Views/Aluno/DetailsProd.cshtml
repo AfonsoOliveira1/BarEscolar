@@ -2,41 +2,46 @@
 @{
     ViewData["Title"] = "Detalhes do Produto";
 }
-<h1>Detalhes do Produto</h1>
 
-<p>
+<h1 class="produto-title">Detalhes do Produto</h1>
+
+<div class="produto-card">
     @if (!string.IsNullOrEmpty(Model.ImagePath))
     {
-        <center>
-            <img src="/Images/@Model.ImagePath" style="width:70px" />
-        </center>
+        <div class="produto-image-wrapper">
+            <img src="/Images/@Model.ImagePath" class="produto-image" />
+        </div>
     }
     else
     {
-        <span>Sem Imagem</span>
+        <div class="produto-no-image">Sem Imagem</div>
     }
-</p>
-<p><strong>Nome:</strong> @Model.Name</p>
-<p><strong>Descrição:</strong> @Model.Description</p>
-<p><strong>Preço:</strong> @Model.Price</p>
-<p><strong>Stock:</strong> @Model.Stock</p>
-<p>
-    <strong>Categoria:</strong>
-    @{
-        List<Category> categorys = ViewBag.Categorys;
-        var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
-        @category?.Name;
-    }
-</p>
-<p><strong>Kcal:</strong>@Model.Kcal</p>
-<p><strong>Protein:</strong>@Model.Protein</p>
-<p><strong>Fat:</strong>@Model.Fat</p>
-<p><strong>Carbs:</strong>@Model.Carbs</p>
-<p><strong>Salt:</strong>@Model.Salt</p>
-<p><strong>Allergens:</strong>@Model.Allergens</p>
 
-<a asp-action="Bar"
-   asp-route-id="@ViewBag.User.ID"
-   class="btn btn-primary">
-    Voltar ao Bar da Escola
-</a>
+    <div class="produto-info">
+        <p><strong>Nome:</strong> @Model.Name</p>
+        <p><strong>Descrição:</strong> @Model.Description</p>
+        <p><strong>Preço:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Stock:</strong> @Model.Stock</p>
+        <p>
+            <strong>Categoria:</strong>
+            @{
+                List<Category> categorys = ViewBag.Categorys;
+                var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
+                @category?.Name
+                ;
+            }
+        </p>
+        <p><strong>Kcal:</strong> @Model.Kcal</p>
+        <p><strong>Protein:</strong> @Model.Protein</p>
+        <p><strong>Fat:</strong> @Model.Fat</p>
+        <p><strong>Carbs:</strong> @Model.Carbs</p>
+        <p><strong>Salt:</strong> @Model.Salt</p>
+        <p><strong>Allergens:</strong> @Model.Allergens</p>
+    </div>
+
+    <a asp-action="Bar"
+       asp-route-id="@ViewBag.User.ID"
+       class="btn produto-back-btn">
+        Voltar ao Bar da Escola
+    </a>
+</div>

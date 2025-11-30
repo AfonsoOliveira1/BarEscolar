@@ -4,28 +4,41 @@
     ViewData["Title"] = "Marcar Menu";
 }
 
-<h1>Marcar Menu — @ViewBag.User.FullName</h1>
+<h1 class="marcar-title">Marcar Menu — @ViewBag.User.FullName</h1>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">@Model.MainDish</h5>
-        <p class="card-text">
-            <strong>Data:</strong> @Model.Date.ToShortDateString()<br />
-            <strong>Tipo:</strong> @(Model.option == "A" ? "Não-Vegan" : "Vegan")<br />
-            <strong>Sopa:</strong> @Model.Soup<br />
-            <strong>Sobremesa:</strong> @Model.Dessert<br />
+<div class="marcar-card">
+    <div class="marcar-body">
+
+        <!-- Dish Name -->
+        <h5 class="marcar-dish">@Model.MainDish</h5>
+
+        <!-- Information Section -->
+        <div class="marcar-info">
+            <p><strong>Data:</strong> @Model.Date.ToShortDateString()</p>
+            <p><strong>Tipo:</strong> @(Model.option == "A" ? "Não-Vegan" : "Vegan")</p>
+            <p><strong>Sopa:</strong> @Model.Soup</p>
+            <p><strong>Sobremesa:</strong> @Model.Dessert</p>
+
             @if (!string.IsNullOrEmpty(Model.Notes))
             {
-                <strong>Notas:</strong> @Model.Notes
+                <p><strong>Notas:</strong> @Model.Notes</p>
             }
-        </p>
+        </div>
 
-        <form asp-action="MarcarConfirmed" method="post">
+        <!-- Form for Confirming -->
+        <form asp-action="MarcarConfirmed" method="post" class="marcar-form">
             <input type="hidden" name="id" value="@ViewBag.User.ID" />
             <input type="hidden" name="menuId" value="@Model.Id" />
-            <button type="submit" class="btn btn-success">Marcar Menu</button>
+
+            <button type="submit" class="btn marcar-btn-confirm">
+                Marcar Menu
+            </button>
         </form>
 
-        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-secondary mt-2">Voltar</a>
+        <!-- Back Button -->
+        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn marcar-btn-back">
+            Voltar
+        </a>
+
     </div>
 </div>

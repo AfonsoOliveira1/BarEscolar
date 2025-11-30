@@ -1,22 +1,204 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
+/* ----------------------
+GENERAL
+---------------------- */
+body, html {
+    font-family: 'Segoe UI', sans-serif;
     font-size: 16px;
-  }
+    margin: 0;
+    padding: 0;
+    background: #fffaf0;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+h1, h2, h4 {
+    font-weight: 900;
+    color: #2f855a;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* ----------------------
+BUTTONS
+---------------------- */
+.btn, .marcar-btn-confirm, .comprar-btn-confirm, .product-btn-buy, .product-btn-warning, .marcados-back-btn, .historico-back-btn {
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: 0.2s all;
 }
 
-body {
-  margin-bottom: 60px;
+.btn-primary, .marcar-btn-confirm, .product-btn-buy {
+    background-color: #2f855a;
+    color: white;
+    border: none;
+}
+
+    .btn-primary:hover, .marcar-btn-confirm:hover, .product-btn-buy:hover {
+        background-color: #276749;
+    }
+
+.btn-secondary, .marcar-btn-back {
+    background-color: #a0aec0;
+    color: white;
+    border: none;
+}
+
+    .btn-secondary:hover, .marcar-btn-back:hover {
+        background-color: #718096;
+    }
+
+.btn-danger, .marcados-cancel-btn {
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+}
+
+    .btn-danger:hover, .marcados-cancel-btn:hover {
+        background-color: #9b2c2c;
+    }
+
+.product-btn-warning {
+    background-color: #d69e2e;
+    color: white;
+}
+
+/* ----------------------
+CARD CONTAINERS
+---------------------- */
+.card, .week-card, .marcar-card, .produto-card, .comprar-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    border: 2px solid #e0d9cd;
+}
+
+/* ----------------------
+TABLES
+---------------------- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 2px solid #e0d9cd;
+}
+
+thead {
+    background-color: #f0f4f2;
+}
+
+    thead th {
+        padding: 12px;
+        font-weight: bold;
+        color: #276749;
+    }
+
+tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0d9cd;
+    vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+    background: #faf7f2;
+}
+
+tbody tr:hover {
+    background: #eee8dc;
+}
+
+/* ----------------------
+FILTERS
+---------------------- */
+.bar-filters, .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-box {
+    display: flex;
+    flex-direction: column;
+}
+
+    .filter-box label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #276749;
+    }
+
+.filter-select, .filter-input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+/* ----------------------
+PRODUCT IMAGES
+---------------------- */
+.product-image, .produto-image {
+    border-radius: 8px;
+    border: 1px solid #e0d9cd;
+}
+
+.product-image-cell {
+    text-align: center;
+}
+
+/* ----------------------
+STATUS LABELS
+---------------------- */
+.status-cancelled {
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: #718096;
+    font-weight: bold;
+}
+
+.status-marked {
+    color: #2f855a;
+    font-weight: bold;
+}
+
+/* ----------------------
+TABS
+---------------------- */
+.menu-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+    .menu-tabs a {
+        text-decoration: none;
+        font-weight: bold;
+        padding: 10px 18px;
+        border-radius: 10px;
+        background-color: #d69e2e;
+        color: white;
+        transition: background 0.2s, transform 0.1s;
+    }
+
+        .menu-tabs a:hover, .tab-active {
+            background-color: #b7791f;
+            transform: scale(1.05);
+        }
+
+/* ----------------------
+WRAPPERS
+---------------------- */
+.product-list-wrapper, .historico-table-wrapper, .marcados-table-wrapper {
+    overflow-x: auto;
+    max-width: 1000px;
+    margin: 0 auto 30px auto;
 }

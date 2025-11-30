@@ -4,37 +4,45 @@
     ViewData["Title"] = "Bar Escolar";
 }
 
-<h1>Bar Escolar — @ViewBag.User.FullName</h1>
-<div>
-    <select id="categoryFilter">
-        <option value="">Filtrar Categoria</option>
-        @foreach (Category category in ViewBag.Categories)
-        {
-            <option value="@category.Name">@category.Name</option>
-        }
-    </select>
+<h1 class="bar-title">Bar Escolar — @ViewBag.User.FullName</h1>
+
+<div class="bar-filters">
+    <div class="filter-box">
+        <label for="categoryFilter">Categoria</label>
+        <select id="categoryFilter" class="filter-select">
+            <option value="">Todas as Categorias</option>
+            @foreach (Category category in ViewBag.Categories)
+            {
+                <option value="@category.Name">@category.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="filter-box">
+        <label for="priceFilter">Preço</label>
+        <select id="priceFilter" class="filter-select">
+            <option value="">Ordenar por Preço</option>
+            <option value="low">Menor → Maior</option>
+            <option value="high">Maior → Menor</option>
+        </select>
+    </div>
+
+    <div class="filter-box">
+        <label for="allergenFilter">Alergénios</label>
+        <input id="allergenFilter" class="filter-input" type="text" placeholder="ex: leite, glúten..." />
+    </div>
 </div>
 
-<div>
-    <select id="priceFilter">
-        <option value="">Filtrar Preço</option>
-        <option value="low">Menor para Maior</option>
-        <option value="high">Maior para Menor</option>
-    </select>
-</div>
+<hr class="bar-divider" />
 
-<div>
-    <input id="allergenFilter" type="text" placeholder="Filtrar por Alergénios"/>
-</div>
-
-<!--Tabela dos produtos AJAX!!!-->
-<div id="productList">
+<div id="productList" class="bar-product-list">
     @await Html.PartialAsync("_ProductList", Model)
 </div>
 
-<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">
+<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn bar-back-btn">
     Voltar aos Menus
 </a>
+
 <script>
     document.getElementById("categoryFilter").addEventListener("change", loadFiltered);
     document.getElementById("priceFilter").addEventListener("change", loadFiltered);
@@ -45,10 +53,10 @@
         const price = document.getElementById("priceFilter").value;
         const allergen = document.getElementById("allergenFilter").value;
 
-    fetch(`/Aluno/LoadProducts?id=@ViewBag.User.ID&category=${category}&price=${price}&allergen=${allergen}`)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("productList").innerHTML = html;
-        });
+        fetch(`/Aluno/LoadProducts?id=@ViewBag.User.ID&category=${category}&price=${price}&allergen=${allergen}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("productList").innerHTML = html;
+            });
     }
 </script>

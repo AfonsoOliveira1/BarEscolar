@@ -5,27 +5,43 @@
     var selectedOption = ViewBag.SelectedOption ?? "A";
 }
 
-<h1>Bem-vindo, @ViewBag.User.FullName!</h1>
+<h1 class="page-title">Bem-vindo, @ViewBag.User.FullName!</h1>
 
-<a asp-action="Historico" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">Historico</a>
-<a asp-action="MenusMarcados" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">Menus Marcado</a>
-<a asp-action="Bar" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">Bar da Escola</a>
-
+<!-- Top Buttons -->
+<div class="top-buttons">
+    <center>
+    <a asp-action="Historico" asp-route-id="@ViewBag.User.ID" class="btn btn-primary">Histórico</a>
+    <a asp-action="MenusMarcados" asp-route-id="@ViewBag.User.ID" class="btn btn-primary">Menus Marcados</a>
+    <a asp-action="Bar" asp-route-id="@ViewBag.User.ID" class="btn btn-primary">Bar da Escola</a>
+    </center>
+</div>
 
 <h2>Menus da Semana</h2>
 
-<div>
-    <div>
-        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="A">Não-Vegan</a>
-        <a asp-action="Index" asp-route-id="@ViewBag.User.ID" asp-route-option="B">Vegan</a>
-    </div>
+<!-- Vegan / Não-Vegan Tabs -->
+<div class="menu-tabs">
+    <a asp-action="Index"
+       asp-route-id="@ViewBag.User.ID"
+       asp-route-option="A"
+       class="@(selectedOption == "A" ? "tab-active" : "")">
+        Não-Vegan
+    </a>
+
+    <a asp-action="Index"
+       asp-route-id="@ViewBag.User.ID"
+       asp-route-option="B"
+       class="@(selectedOption == "B" ? "tab-active" : "")">
+        Vegan
+    </a>
 </div>
 
+<!-- Week Cards -->
 @foreach (var week in Model)
 {
     <div class="card mb-4 shadow-sm p-3">
         <h4>Semana começando em: @week.weekstart</h4>
-        <table class="table table-striped mt-2">
+
+        <table class="table cafeteria-table table-striped mt-2">
             <thead>
                 <tr>
                     <th>Data</th>
@@ -50,7 +66,8 @@
                         <td>
                             @{
                                 var marked = ((List<int>)ViewBag.MarkedMenuIds).Contains(menuDay.Id);
-                                var remaining = menuDay.MaxSeats - (((Dictionary<int, int>)ViewBag.RemainingSeats).GetValueOrDefault(menuDay.Id, 0));
+                                var remaining = menuDay.MaxSeats - (((Dictionary<int, int>)ViewBag.RemainingSeats)
+                                .GetValueOrDefault(menuDay.Id, 0));
                             }
 
                             @if (marked)
@@ -73,21 +90,17 @@
         </table>
     </div>
 }
+
 <script>
     const s = document.getElementById("select");
 
-    s.addEventListener("change", function () {
+    if (s) {
+        s.addEventListener("change", function () {
+            const option = this.value;
+            const userId = "@ViewBag.User.ID";
 
-        const option = this.value;
-        const userId = "@ViewBag.User.ID";
-
-        console.log("SELECT MUDOU PARA:", option);
-        console.log("USER ID:", userId);
-
-        // Testa primeiro no console
-        const url = "/Aluno/Index/" + userId + "?option=" + option;
-        console.log("URL:", url);
-
-        window.location.href = url;
-    });
+            const url = "/Aluno/Index/" + userId + "?option=" + option;
+            window.location.href = url;
+        });
+    }
 </script>

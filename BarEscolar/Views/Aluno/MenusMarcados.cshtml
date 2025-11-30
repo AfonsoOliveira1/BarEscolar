@@ -5,51 +5,53 @@
     var allMenus = ViewBag.AllMenus as List<BarEscolar.Models.MenuDay>;
 }
 
-<h1>Menus Marcados — @ViewBag.User.FullName</h1>
+<h1 class="marcados-title">Menus Marcados — @ViewBag.User.FullName</h1>
 
-<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn btn-primary mb-3">
+<a asp-action="Index" asp-route-id="@ViewBag.User.ID" class="btn marcados-back-btn">
     Voltar aos Menus
 </a>
 
 @if (!Model.Any())
 {
-    <p>Não existem menus marcados.</p>
+    <p class="marcados-empty">Não existem menus marcados.</p>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Prato Principal</th>
-                <th>Tipo</th>
-                <th>Sobremesa</th>
-                <th>Sopa</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                var menu = allMenus.FirstOrDefault(m => m.Id == item.Productid);
-                if (menu != null)
+    <div class="marcados-table-wrapper">
+        <table class="marcados-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Prato Principal</th>
+                    <th>Tipo</th>
+                    <th>Sobremesa</th>
+                    <th>Sopa</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@menu.Date.ToShortDateString()</td>
-                        <td>@menu.MainDish</td>
-                        <td>@(menu.option == "A" ? "Não-Vegan" : "Vegan")</td>
-                        <td>@menu.Dessert</td>
-                        <td>@menu.Soup</td>
-                        <td>
-                            <form asp-action="CancelarMarcacao" method="post">
-                                <input type="hidden" name="id" value="@ViewBag.User.ID" />
-                                <input type="hidden" name="orderItemId" value="@item.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
-                            </form>
-                        </td>
-                    </tr>
+                    var menu = allMenus.FirstOrDefault(m => m.Id == item.Productid);
+                    if (menu != null)
+                    {
+                        <tr>
+                            <td>@menu.Date.ToShortDateString()</td>
+                            <td>@menu.MainDish</td>
+                            <td>@(menu.option == "A" ? "Não-Vegan" : "Vegan")</td>
+                            <td>@menu.Dessert</td>
+                            <td>@menu.Soup</td>
+                            <td>
+                                <form asp-action="CancelarMarcacao" method="post">
+                                    <input type="hidden" name="id" value="@ViewBag.User.ID" />
+                                    <input type="hidden" name="orderItemId" value="@item.Id" />
+                                    <button type="submit" class="btn marcados-cancel-btn">Cancelar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }

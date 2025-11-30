@@ -3,22 +3,31 @@
     ViewData["Title"] = "Comprar Produto";
 }
 
-<h1>Produto</h1>
+<h1 class="comprar-title">Produto</h1>
 
-<p><strong>Nome:</strong> @Model.Name</p>
-<p><strong>Descrição:</strong> @Model.Description</p>
-<p><strong>Preço:</strong> @Model.Price</p>
-<p><strong>Stock:</strong> @Model.Stock</p>
-<p>
-    <strong>Categoria:</strong> 
-    @{
-        List<Category> categorys = ViewBag.Categorys;
-        var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
-        @category?.Name;
-    }
-</p>
-<form asp-action="ComprarConfirmed" method="post">
-    <input type="hidden" name="userid" value="@ViewBag.User.ID" />
-    <input type="hidden" name="prodid" value="@Model.Id" />
-    <button type="submit" class="btn btn-success">Confirmar Compra</button>
-</form>
+<div class="comprar-card">
+    <div class="comprar-info">
+        <p><strong>Nome:</strong> @Model.Name</p>
+        <p><strong>Descrição:</strong> @Model.Description</p>
+        <p><strong>Preço:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Stock:</strong> @Model.Stock</p>
+        <p>
+            <strong>Categoria:</strong>
+            @{
+                List<Category> categorys = ViewBag.Categorys;
+                var category = categorys?.FirstOrDefault(c => c.Id == Model.CategoryId);
+                @category?.Name
+                ;
+            }
+        </p>
+    </div>
+
+    <form asp-action="ComprarConfirmed" method="post" class="comprar-form">
+        <input type="hidden" name="userid" value="@ViewBag.User.ID" />
+        <input type="hidden" name="prodid" value="@Model.Id" />
+
+        <button type="submit" class="btn comprar-btn-confirm">
+            Confirmar Compra
+        </button>
+    </form>
+</div>
