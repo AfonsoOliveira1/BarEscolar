@@ -230,5 +230,15 @@
         "MaxSeats": 30
       }
     ]
+  },
+  {
+    "id": 3,
+    "weekstart": "0001-01-01",
+    "menuDays": []
+  },
+  {
+    "id": 4,
+    "weekstart": "0001-01-01",
+    "menuDays": []
   }
 ]

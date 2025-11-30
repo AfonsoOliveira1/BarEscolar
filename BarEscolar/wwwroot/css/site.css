@@ -202,3 +202,256 @@ WRAPPERS
     max-width: 1000px;
     margin: 0 auto 30px auto;
 }
+/* PAGE TITLES */
+.login-page-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* GENERIC CARD (same as menus/bar/history look) */
+.generic-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease;
+}
+
+/* FORM ELEMENTS */
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.2s;
+}
+
+    .form-input:focus {
+        border-color: #4d7cff;
+        box-shadow: 0 0 4px rgba(77, 124, 255, 0.4);
+    }
+
+.validation-error {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+/* BUTTONS — SAME STYLE AS ALL OTHER USER PAGES */
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: 0.2s;
+}
+
+/* PRIMARY BUTTON */
+.main-btn {
+    background: #4d7cff;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 5px;
+}
+
+    .main-btn:hover {
+        background: #3a63d9;
+    }
+
+/* SECONDARY BUTTON */
+.secondary-btn {
+    background: #f0f0f0;
+    color: #333;
+    width: 100%;
+    display: block;
+    margin-top: 10px;
+}
+
+    .secondary-btn:hover {
+        background: #e4e4e4;
+    }
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Admin Dashboard Wrapper */
+.admin-dashboard-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Cards Container */
+.dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Individual Admin Card */
+.admin-card {
+    flex: 1 1 calc(33% - 20px);
+    background: #ffffff;
+    border: 2px solid #e0d9cd;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    padding: 30px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .admin-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .admin-card .card-title {
+        font-size: 1.3rem;
+        color: #2f855a;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .admin-card .card-text {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #276749;
+    }
+
+/* Dashboard Action Buttons */
+.dashboard-actions {
+    text-align: center;
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.admin-btn {
+    background-color: #2f855a;
+    border: 2px solid #276749;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    .admin-btn:hover {
+        background-color: #276749;
+        transform: scale(1.05);
+    }
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+    .admin-card {
+        flex: 1 1 45%;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-card {
+        flex: 1 1 100%;
+    }
+}
+/* Table Wrapper */
+.admin-table-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+/* Table Styling */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border: 2px solid #e0d9cd;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .admin-table thead {
+        background-color: #f0f4f2;
+    }
+
+        .admin-table thead th {
+            color: #276749;
+            font-weight: bold;
+            padding: 12px;
+            text-align: left;
+        }
+
+    .admin-table tbody td {
+        padding: 12px;
+        vertical-align: middle;
+        border-bottom: 1px solid #e0d9cd;
+    }
+
+/* Action Buttons */
+.admin-btn-warning {
+    background-color: #d69e2e !important;
+    color: white !important;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+}
+
+    .admin-btn-warning:hover {
+        background-color: #b7791f !important;
+    }
+
+.admin-btn-danger {
+    background-color: #e53e3e !important;
+    color: white !important;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+}
+
+    .admin-btn-danger:hover {
+        background-color: #9b2c2c !important;
+    }
+
+.admin-btn-secondary {
+    background-color: #2b6cb0 !important;
+    color: white !important;
+    padding: 8px 18px;
+    border-radius: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+    .admin-btn-secondary:hover {
+        background-color: #2a4365 !important;
+    }

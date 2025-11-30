@@ -2,15 +2,38 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h1>Admin Dashboard</h1>
+<h1 class="page-title">Admin Dashboard</h1>
 
-<ul>
-    <li>Total Semanas de Menu: @ViewBag.Weeks.Count</li>
-    <li>Total Produtos: @ViewBag.Products.Count</li>
-    <li>Total Categorias: @ViewBag.Categories.Count</li>
-</ul>
+<div class="admin-dashboard-wrapper">
 
-<p><a class="btn btn-primary" asp-action="MenuWeeks" asp-controller="Admin">Gerir Menus</a></p>
-<p><a class="btn btn-primary" asp-action="Categories" asp-controller="Admin">Gerir Categorias</a></p>
-<p><a class="btn btn-primary" asp-action="Products" asp-route-id="@ViewBag.User.ID" asp-controller="Admin">Gerir Produtos</a></p>
-<a class="btn btn-primary" asp-action="Users" asp-controller="Admin">Gerir Utilizadores</a>
+    <div class="dashboard-cards">
+        <div class="card admin-card">
+            <div class="card-body">
+                <h5 class="card-title">Total Semanas de Menu</h5>
+                <p class="card-text">@ViewBag.Weeks.Count</p>
+            </div>
+        </div>
+
+        <div class="card admin-card">
+            <div class="card-body">
+                <h5 class="card-title">Total Produtos</h5>
+                <p class="card-text">@ViewBag.Products.Count</p>
+            </div>
+        </div>
+
+        <div class="card admin-card">
+            <div class="card-body">
+                <h5 class="card-title">Total Categorias</h5>
+                <p class="card-text">@ViewBag.Categories.Count</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-actions mt-4">
+        <a class="btn admin-btn" asp-action="MenuWeeks" asp-controller="Admin">Gerir Menus</a>
+        <a class="btn admin-btn" asp-action="Categories" asp-controller="Admin">Gerir Categorias</a>
+        <a class="btn admin-btn" asp-action="Products" asp-route-id="@ViewBag.User.ID" asp-controller="Admin">Gerir Produtos</a>
+        <a class="btn admin-btn" asp-action="Users" asp-controller="Admin">Gerir Utilizadores</a>
+    </div>
+
+</div>

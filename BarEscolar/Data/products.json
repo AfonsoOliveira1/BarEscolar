@@ -1,22 +1,6 @@
 {
   "Products": [
     {
-      "ImagePath": "JSON.png",
-      "Id": 3,
-      "Name": "awsd",
-      "Description": "asdwawsd",
-      "Price": 12,
-      "CategoryId": 1,
-      "Kcal": 12,
-      "Protein": 12,
-      "Fat": 12,
-      "Carbs": 121,
-      "Salt": 212,
-      "Allergens": "asdasd",
-      "Stock": 8,
-      "IsActive": true
-    },
-    {
       "ImagePath": "coordinator.jpg",
       "Id": 4,
       "Name": "salmaoz",
@@ -46,6 +30,22 @@
       "Salt": 12,
       "Allergens": "meow",
       "Stock": 40,
+      "IsActive": true
+    },
+    {
+      "ImagePath": "",
+      "Id": 3,
+      "Name": "awsd",
+      "Description": "asdwawsd",
+      "Price": 12,
+      "CategoryId": 1,
+      "Kcal": 12,
+      "Protein": 12,
+      "Fat": 12,
+      "Carbs": 121,
+      "Salt": 212,
+      "Allergens": "asdasd",
+      "Stock": 8,
       "IsActive": true
     }
   ]

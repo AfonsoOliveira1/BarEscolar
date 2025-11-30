@@ -2,28 +2,35 @@
     ViewData["Title"] = "Registar";
 }
 
-<h1 class="text-center">Registo</h1>
+<h1 class="page-title login-page-title">Registo</h1>
 
-<form method="post" class="text-center">
-    <div>
-        <label>Nome completo:</label>
-        <input type="text" name="fullname" required />
-    </div>
+<div class="generic-card login-card">
+    <form method="post" class="login-form">
 
-    <div>
-        <label>Nome de utilizador:</label>
-        <input type="text" name="username" required />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Nome completo:</label>
+            <input type="text" name="fullname" class="form-input" required />
+        </div>
 
-    <div>
-        <label>Email:</label>
-        <input type="email" name="email" required />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Nome de utilizador:</label>
+            <input type="text" name="username" class="form-input" required />
+        </div>
 
-    <div>
-        <label>Palavra-passe:</label>
-        <input type="password" name="password" required />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Email:</label>
+            <input type="email" name="email" class="form-input" required />
+        </div>
 
-    <button type="submit">Registar</button>
-</form>
+        <div class="form-group">
+            <label class="form-label">Palavra-passe:</label>
+            <input type="password" name="password" class="form-input" required />
+        </div>
+
+        <button type="submit" class="btn main-btn">Registar</button>
+
+        <a asp-action="Login" class="btn secondary-btn login-register-btn">
+            Já tenho conta
+        </a>
+    </form>
+</div>

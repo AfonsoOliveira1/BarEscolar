@@ -3,22 +3,27 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1 class="page-title login-page-title">Login</h1>
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="EmailOrUsername"></label>
-        <input asp-for="EmailOrUsername" />
-        <span asp-validation-for="EmailOrUsername" class="text-danger"></span>
-    </div>
+<div class="generic-card login-card">
+    <form asp-action="Login" method="post" class="login-form">
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="EmailOrUsername" class="form-label"></label>
+            <input asp-for="EmailOrUsername" class="form-input" />
+            <span asp-validation-for="EmailOrUsername" class="validation-error"></span>
+        </div>
 
-    <button type="submit">Entrar</button>
-    <a asp-action="Register" class="btn-secondary">Registrar</a>
-</form>
+        <div class="form-group">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-input" />
+            <span asp-validation-for="Password" class="validation-error"></span>
+        </div>
 
+        <button type="submit" class="btn main-btn">Entrar</button>
+
+        <a asp-action="Register" class="btn secondary-btn login-register-btn">
+            Registrar
+        </a>
+    </form>
+</div>

@@ -4,34 +4,39 @@
     ViewData["Title"] = "Produtos";
 }
 
-<h2>Produtos</h2>
+<h2 class="page-title">Produtos</h2>
 
-<a class="btn btn-success mb-3" asp-action="CreateProduct">Novo Produto</a>
+<center><a class="btn btn-success mb-3" asp-action="CreateProduct">Novo Produto</a><center/>
 
-<div>
-    <select id="categoryFilter">
-        <option value="">Filtrar Categoria</option>
-        @foreach (Category category in ViewBag.Categories)
-        {
-            <option value="@category.Name">@category.Name</option>
-        }
-    </select>
+<div class="filters-container">
+    <div class="filter-box">
+        <label for="categoryFilter">Categoria</label>
+        <select id="categoryFilter" class="filter-select">
+            <option value="">Filtrar Categoria</option>
+            @foreach (Category category in ViewBag.Categories)
+            {
+                <option value="@category.Name">@category.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="filter-box">
+        <label for="priceFilter">Preço</label>
+        <select id="priceFilter" class="filter-select">
+            <option value="">Filtrar Preço</option>
+            <option value="low">Menor para Maior</option>
+            <option value="high">Maior para Menor</option>
+        </select>
+    </div>
+
+    <div class="filter-box">
+        <label for="allergenFilter">Alergénios</label>
+        <input id="allergenFilter" class="filter-input" type="text" placeholder="ex: leite, glúten..." />
+    </div>
 </div>
 
-<div>
-    <select id="priceFilter">
-        <option value="">Filtrar Preço</option>
-        <option value="low">Menor para Maior</option>
-        <option value="high">Maior para Menor</option>
-    </select>
-</div>
-
-<div>
-    <input id="allergenFilter" type="text" placeholder="Filtrar por Alergénios" />
-</div>
-
-<!--Tabela dos produtos AJAX!!!-->
-<div id="productList">
+<!-- Tabela dos produtos AJAX -->
+<div id="productList" class="product-list-wrapper">
     @await Html.PartialAsync("_ProductList", Model)
 </div>
 
@@ -45,10 +50,10 @@
         const price = document.getElementById("priceFilter").value;
         const allergen = document.getElementById("allergenFilter").value;
 
-    fetch(`/Admin/LoadProducts?id=@ViewBag.User.ID&category=${category}&price=${price}&allergen=${allergen}`)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("productList").innerHTML = html;
-        });
+        fetch(`/Admin/LoadProducts?id=@ViewBag.User.ID&category=${category}&price=${price}&allergen=${allergen}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("productList").innerHTML = html;
+            });
     }
 </script>
